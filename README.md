@@ -10,7 +10,7 @@ The full data set can be found [here- kaggle](https://www.kaggle.com/mczielinski
 
 ## MVP
 
-Using this data users, will be able to see a minute by minute overview of the bitcoin market. Users will be able to see key data points such as open, close, high, low, volume and weighted price. Additional I plan to show other minute by minute information such as the weather to incorporate a more dynamic presentation of my data.
+Using this data users will be able to see a minute by minute overview of the bitcoin market. They will see key data points such as open, close, high, low, volume and weighted price. Additionally, I plan to show other minute by minute information such as the weather to incorporate a more dynamic presentation of my data.
 
 Main functionality of my BitData will be:
 
@@ -29,16 +29,24 @@ This project will be implemented using the following Technologies:
   * bundle.js
 
 
+
+## Wire Frame
+
+
 ## Implementation TimeLine
 
 ### Day 1
-Will be spend getting familiar with the D3 library as well as setting up all the necessary files to start my project.  Additionally I will start organizing the data that I will be showing.
+Will be spend getting familiar with the D3 library as well as setting up all the necessary files to start my project.  Additionally I will start organizing the data that I will be showing.  Will make a clear picture of what I will be showing after a quick overview of D3.
 ### Day 2
 
-Will be focusing on getting the main data to show and interaction
+This day will be focus on showing the data in a clear and readable manner.  Will make it as interactive as I can.  
 
 ### Day 3
-Continue working on interaction and showing the data in a clear and readable manner.
+Continue on Day 2 goals.
 
 ### Day 4
-Add closing styling.  Make sure everything makes sense and have someon go through it so 
+Add closing styling.  Make sure everything makes sense and have someone go through it.
+
+
+## Bonus Features
+   * I plan to add more information on the day to day such as weather and news events to explain the changing prices of the stock
