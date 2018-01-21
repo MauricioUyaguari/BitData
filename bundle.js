@@ -9992,7 +9992,7 @@ const renderNiceTimeDate = (dateTime) => {
   const showDate = renderDate(date);
   return [showTime, showDate];
 };
-/* harmony export (immutable) */ __webpack_exports__["c"] = renderNiceTimeDate;
+/* harmony export (immutable) */ __webpack_exports__["d"] = renderNiceTimeDate;
 
 
 
@@ -10019,8 +10019,17 @@ const renderDate = (date) => {
   const day = date.getDate();
 
   return month + ", " + day + " " + year;
-
 };
+
+
+
+
+const formatToCurrency = (number) => {
+  number = parseFloat(number);
+  return "$" + number.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+};
+/* harmony export (immutable) */ __webpack_exports__["c"] = formatToCurrency;
+
 
 
 /***/ }),
@@ -10032,6 +10041,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_d3__ = __webpack_require__(49);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_functions__ = __webpack_require__(172);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__lastMonth__ = __webpack_require__(465);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__currentData__ = __webpack_require__(466);
 var Papa = __webpack_require__(174);
 
 
@@ -10051,7 +10061,6 @@ window.d3 = __WEBPACK_IMPORTED_MODULE_0_d3__;
 
 
 const divButtons = document.querySelector(".div-buttons");
-// window.hi = divButtons;
 
 
 divButtons.addEventListener("click", (e) => {
@@ -10086,23 +10095,26 @@ const renderBitData = (rangeDateInput) => {
 
 
 const renderBitChart = (data, range) => {
-window.data = data;
-
-
-let svg = __WEBPACK_IMPORTED_MODULE_0_d3__["select"]("#showData-svg");
-  svg.selectAll("*").remove();
+  let div = __WEBPACK_IMPORTED_MODULE_0_d3__["select"]("#showData");
+    div.selectAll("*").remove();
 
   let margin = {top: 80, right: 50, bottom: 30, left: 40},
-  width = +svg.attr("width") - margin.left - margin.right,
-  height = +svg.attr("height") - margin.top - margin.bottom,
-  g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    width = 960 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
+  window.data = data;
+  let svg = __WEBPACK_IMPORTED_MODULE_0_d3__["select"]("#showData").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
   let y = __WEBPACK_IMPORTED_MODULE_0_d3__["scaleLinear"]()
   .rangeRound([height, 0])
   .domain(__WEBPACK_IMPORTED_MODULE_0_d3__["extent"](data, function(d) { return d.close ; })  )
   .nice();
 
-  g.append("g")
+  svg.append("g")
       .call(__WEBPACK_IMPORTED_MODULE_0_d3__["axisLeft"](y).ticks(20))
       .append("text")
       .attr("fill", "gray")
@@ -10118,13 +10130,14 @@ let svg = __WEBPACK_IMPORTED_MODULE_0_d3__["select"]("#showData-svg");
         .domain(__WEBPACK_IMPORTED_MODULE_0_d3__["extent"](data, function(d) { return d.date; }));
         // .nice();
 
-      g.append("g")
+      svg.append("g")
           .attr("transform", "translate(0," + height + ")")
           .call(__WEBPACK_IMPORTED_MODULE_0_d3__["axisBottom"](x));
+
       let line = __WEBPACK_IMPORTED_MODULE_0_d3__["line"]()
           .x(function(d) { return x(d.date); })
           .y(function(d) { return y(d.close); });
-        let path = g.append("path")
+        let path = svg.append("path")
           .datum(data)
           .attr("fill", "none")
           .attr("stroke", "steelblue")
@@ -10133,97 +10146,93 @@ let svg = __WEBPACK_IMPORTED_MODULE_0_d3__["select"]("#showData-svg");
           .attr("stroke-width", 1.5)
           .attr("d", line);
 
-      const circle = g.append("circle")
-        .attr("cx", 100)
-        .attr("cy", 350)
-        .attr("r", 3)
-          .attr("fill", "red");
+      // const circle = gContainer.append("circle")
+      //   .attr("cx", 100)
+      //   .attr("cy", 350)
+      //   .attr("r", 3)
+      //     .attr("fill", "red");
+      //
+      // const pathEl = path.node();
+      // const pathLength = pathEl.getTotalLength();
+      // const BBox = pathEl.getBBox();
+      // const scale = pathLength/BBox.width;
+      // const offsetLeft = document.getElementById("showData").offsetLeft + margin.left;
+      // window.offsetLeft  = offsetLeft;
+      // window.pathLength = pathLength;
+      // svg.on("mousemove", function() {
+      //   x = d3.event.pageX - offsetLeft;
+      //   if(x< 0 || x > 900 - margin.right - margin.left){
+      //      return null;
+      //   }
+      //   let beginning = x,
+      //   end = pathLength,
+      //   pos,
+      //   target;
+      //   while (true) {
+      //     target = Math.floor((beginning + end) / 2);
+      //     pos = pathEl.getPointAtLength(target);
+      //     if ((target === end || target === beginning) && pos.x !== x) {
+      //         break;
+      //     }
+      //     if (pos.x > x)      end = target;
+      //     else if (pos.x < x) beginning = target;
+      //     else                break; //position found
+      //     }
+      //   circle
+      //     .attr("opacity", 1)
+      //     .attr("cx", x)
+      //     .attr("cy", pos.y);
+      //   });
 
-      const pathEl = path.node();
-      const pathLength = pathEl.getTotalLength();
-      const BBox = pathEl.getBBox();
-      const scale = pathLength/BBox.width;
-      const offsetLeft = document.getElementById("showData").offsetLeft + margin.left;
-      window.pathLength = pathLength;
+      let focus = svg.append("g")
+        .attr("class", "focus")
+        .style("display", "none");
+
+      focus.append("circle")
+          .attr("r", 4.5).attr("color", "red");
+
+      focus.append("text")
+          .attr("x", 9)
+          .attr("dy", ".35em");
 
 
 
+      svg.append("rect")
+          .attr("class", "overlay")
+          .attr("width", width)
+          .attr("height", height)
+          .on("mouseover", function() { focus.style("display", null); })
+          .on("mouseout", function() { focus.style("display", "none"); })
+          .on("mousemove", mousemove);
 
-      svg.on("mousemove", function() {
-        x = __WEBPACK_IMPORTED_MODULE_0_d3__["event"].pageX - offsetLeft;
-        if(x< 0 || x > 900 - margin.right - margin.left){
-           return null;
-        }
-        let beginning = x,
-        end = pathLength,
-        pos,
-        target;
-        while (true) {
-          debugger
-          target = Math.floor((beginning + end) / 2);
-          pos = pathEl.getPointAtLength(target);
-          if ((target === end || target === beginning) && pos.x !== x) {
-              break;
+      let bisectDate = __WEBPACK_IMPORTED_MODULE_0_d3__["bisector"](function(d) { return d.date; }).left;
+
+          function mousemove() {
+            var x0 = x.invert(__WEBPACK_IMPORTED_MODULE_0_d3__["mouse"](this)[0]),
+                i = bisectDate(data, x0, 1),
+                d0 = data[i - 1],
+                d1 = data[i],
+                d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+            focus.attr("transform", "translate(" + x(d.date) + "," + y(d.close) + ")");
+            // updateLegend(d.date, d.close);
+            focus.select("text").text((__WEBPACK_IMPORTED_MODULE_1__util_functions__["c" /* formatToCurrency */](d.close)));
           }
-          if (pos.x > x)      end = target;
-          else if (pos.x < x) beginning = target;
-          else                break; //position found
-          }
-        circle
-          .attr("opacity", 1)
-          .attr("cx", x)
-          .attr("cy", pos.y);
-        });
-
-        // function mousemove() {
-        //   let x0 = x.invert(d3.mouse(this)[0]),
-        //     i = bisectDate(data, x0, 1),
-        //     d0 = data[i - 1],
-        //     d1 = data[i],
-        //     d = x0 - d0.date > d1.date - x0 ? d1 : d0;
-        // focus.attr("transform", "translate(" + x(d.date) + "," + y(d.close) + ")");
-        // focus.select("text").text(formatCurrency(d.close));
-        // }
 
 
-          g.exit().remove();
+          
+
+
 
 };
 
+window.change = __WEBPACK_IMPORTED_MODULE_1__util_functions__["c" /* formatToCurrency */];
 
 
-
-
-const renderCurrentBitData = () => __WEBPACK_IMPORTED_MODULE_0_d3__["json"]("https://api.coindesk.com/v1/bpi/currentprice.json", function(error, data) {
-  if(error){
-    console.log(error);
-  }else {
-    window.currentprice = data;
-    renderCurrent(data);
-  }
-});
-
-
-const renderCurrent = (data) => {
-  console.log("hello");
-  const dateTime = __WEBPACK_IMPORTED_MODULE_1__util_functions__["c" /* renderNiceTimeDate */](data.time.updated),
-  time = dateTime[0],
-  date = dateTime[1];
-  const price = data.bpi.USD.rate;
-
-  const divTime = $(".bitCoinTime"),
-    divDate =  $(".bitCoinDate"),
-   divPrice = $('.bitCoinPrice');
-
-   divTime.html(time);
-   divDate.html(date);
-   divPrice.html(` $ ${price}`);
-};
-
-renderCurrentBitData();
+// display current bitcoin data. ajax every minute
+__WEBPACK_IMPORTED_MODULE_3__currentData__["a" /* renderCurrentBitData */]();
 setInterval(function(a) {
   console.log("about to render");
-  renderCurrentBitData();
+  __WEBPACK_IMPORTED_MODULE_3__currentData__["a" /* renderCurrentBitData */]();
 }, 60000);
 
 
@@ -25009,6 +25018,46 @@ const showData = (data) => {
 // .attr("x", function(d, i){return i * 30;})
 // .attr("y", -1)
 // .attr("full", function(d) {return UtilFunction.getRandomColor();});
+
+
+/***/ }),
+/* 466 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_functions__ = __webpack_require__(172);
+
+
+
+const renderCurrentBitData = () => d3.json("https://api.coindesk.com/v1/bpi/currentprice.json", function(error, data) {
+  if(error){
+    console.log(error);
+  }else {
+    window.currentprice = data;
+    renderCurrent(data);
+  }
+});
+/* harmony export (immutable) */ __webpack_exports__["a"] = renderCurrentBitData;
+
+
+
+const renderCurrent = (data) => {
+  console.log("hello");
+  const dateTime = __WEBPACK_IMPORTED_MODULE_0__util_functions__["d" /* renderNiceTimeDate */](data.time.updated),
+  time = dateTime[0],
+  date = dateTime[1];
+  const price = data.bpi.USD.rate;
+
+  const divTime = $(".bitCoinTime"),
+    divDate =  $(".bitCoinDate"),
+   divPrice = $('.bitCoinPrice');
+
+   divTime.html(time);
+   divDate.html(date);
+   divPrice.html(` $ ${price}`);
+};
+/* unused harmony export renderCurrent */
+
 
 
 /***/ })
