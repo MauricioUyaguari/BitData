@@ -9992,7 +9992,7 @@ const renderNiceTimeDate = (dateTime) => {
   const showDate = renderDate(date);
   return [showTime, showDate];
 };
-/* harmony export (immutable) */ __webpack_exports__["d"] = renderNiceTimeDate;
+/* harmony export (immutable) */ __webpack_exports__["e"] = renderNiceTimeDate;
 
 
 
@@ -10000,11 +10000,13 @@ const renderNiceTimeDate = (dateTime) => {
 const renderTime  = (date) => {
   let hours = date.getHours();
   let minutes = date.getMinutes();
+  let seconds = date.getSeconds();
   let ampm = hours >= 12 ? 'pm' : 'am';
   hours = hours % 12;
   hours = hours ? hours : 12; // the hour '0' should be '12'
   minutes = minutes < 10 ? '0'+minutes : minutes;
-  const strTime = hours + ':' + minutes +  ':00 ' + ampm;
+  seconds = seconds < 10 ?'0' + seconds :seconds;
+  const strTime = hours + ':' + minutes +  ':' + seconds + ' ' + ampm;
   return strTime;
 };
 
@@ -10022,6 +10024,11 @@ const renderDate = (date) => {
 };
 
 
+const numberWithCommas = (x) => {
+  x = parseFloat(x);
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
+/* harmony export (immutable) */ __webpack_exports__["d"] = numberWithCommas;
 
 
 const formatToCurrency = (number) => {
@@ -10145,45 +10152,6 @@ const renderBitChart = (data, range) => {
           .attr("stroke-linecap", "round")
           .attr("stroke-width", 1.5)
           .attr("d", line);
-
-      // const circle = gContainer.append("circle")
-      //   .attr("cx", 100)
-      //   .attr("cy", 350)
-      //   .attr("r", 3)
-      //     .attr("fill", "red");
-      //
-      // const pathEl = path.node();
-      // const pathLength = pathEl.getTotalLength();
-      // const BBox = pathEl.getBBox();
-      // const scale = pathLength/BBox.width;
-      // const offsetLeft = document.getElementById("showData").offsetLeft + margin.left;
-      // window.offsetLeft  = offsetLeft;
-      // window.pathLength = pathLength;
-      // svg.on("mousemove", function() {
-      //   x = d3.event.pageX - offsetLeft;
-      //   if(x< 0 || x > 900 - margin.right - margin.left){
-      //      return null;
-      //   }
-      //   let beginning = x,
-      //   end = pathLength,
-      //   pos,
-      //   target;
-      //   while (true) {
-      //     target = Math.floor((beginning + end) / 2);
-      //     pos = pathEl.getPointAtLength(target);
-      //     if ((target === end || target === beginning) && pos.x !== x) {
-      //         break;
-      //     }
-      //     if (pos.x > x)      end = target;
-      //     else if (pos.x < x) beginning = target;
-      //     else                break; //position found
-      //     }
-      //   circle
-      //     .attr("opacity", 1)
-      //     .attr("cx", x)
-      //     .attr("cy", pos.y);
-      //   });
-
       let focus = svg.append("g")
         .attr("class", "focus")
         .style("display", "none");
@@ -10219,21 +10187,85 @@ const renderBitChart = (data, range) => {
           }
 
 
-          
+
 
 
 
 };
 
-window.change = __WEBPACK_IMPORTED_MODULE_1__util_functions__["c" /* formatToCurrency */];
 
 
 // display current bitcoin data. ajax every minute
-__WEBPACK_IMPORTED_MODULE_3__currentData__["a" /* renderCurrentBitData */]();
-setInterval(function(a) {
-  console.log("about to render");
-  __WEBPACK_IMPORTED_MODULE_3__currentData__["a" /* renderCurrentBitData */]();
-}, 60000);
+
+
+const renderCurrent = () => __WEBPACK_IMPORTED_MODULE_0_d3__["json"]("https://api.blockchain.info/stats?cors=true", function(error, data) {
+  if(error){
+    console.log(error);
+  }else {
+    window.blockchain2 = data;
+    renderCurrentData(data);
+    renderAdditionalCurrent(data);
+  }
+});
+
+
+    const renderCurrentData = (data) => {
+      const divTime = $(".bitCoinTime");
+      const divDate =  $(".bitCoinDate"),
+      divPrice = $('.bitCoinPrice');
+      const dateTime = __WEBPACK_IMPORTED_MODULE_1__util_functions__["e" /* renderNiceTimeDate */](parseInt(data.timestamp));
+      let time = dateTime[0];
+      let date = dateTime[1];
+     divTime.html(time);
+     divDate.html(date);
+     const price = __WEBPACK_IMPORTED_MODULE_1__util_functions__["c" /* formatToCurrency */](data.market_price_usd);
+     divPrice.html(`${price}`);
+    };
+
+
+
+    const renderAdditionalCurrent = (data) => {
+      let list = $('.current-add-info');
+      list.empty();
+      let hashrate = __WEBPACK_IMPORTED_MODULE_1__util_functions__["d" /* numberWithCommas */](data.hash_rate.toFixed(2)),
+      totalFeesbtc = __WEBPACK_IMPORTED_MODULE_1__util_functions__["c" /* formatToCurrency */](data.total_fees_btc),
+      btcMined = data.n_btc_mined,
+      nTransactions = __WEBPACK_IMPORTED_MODULE_1__util_functions__["d" /* numberWithCommas */](data.n_tx),
+      nBlocksMined = data.n_blocks_mined,
+      aMinutesBetweenBlocks = data.minutes_between_blocks.toFixed(2),
+      tVolumeUSD = __WEBPACK_IMPORTED_MODULE_1__util_functions__["c" /* formatToCurrency */](data.estimated_transaction_volume_usd.toFixed(2)),
+      minersRevenue = __WEBPACK_IMPORTED_MODULE_1__util_functions__["c" /* formatToCurrency */](data.miners_revenue_usd.toFixed(2)),
+      nextTarget = __WEBPACK_IMPORTED_MODULE_1__util_functions__["d" /* numberWithCommas */](data.nextretarget),
+      difficulty = __WEBPACK_IMPORTED_MODULE_1__util_functions__["d" /* numberWithCommas */](data.difficulty),
+      tradeVolume = __WEBPACK_IMPORTED_MODULE_1__util_functions__["c" /* formatToCurrency */](data.trade_volume_usd.toFixed(2));
+
+    list.append($("<li>").text(`hashrate: ${hashrate}`));
+    list.append($("<li>").text(`Total Transaction Fees: ${totalFeesbtc}`));
+    list.append($("<li>").text(`Number of BTC Mined: ${btcMined}`));
+    list.append($("<li>").text(`Number of Transactions: ${nTransactions}`));
+    list.append($("<li>").text(`Number of Blocks Mined: ${nBlocksMined}`));
+    list.append($("<li>").text(`Average Minutes Betweens Block: ${aMinutesBetweenBlocks}`));
+    list.append($("<li>").text(`Estimated Transaction Volume USD: ${tVolumeUSD}`));
+    list.append($("<li>").text(`Miners Revenue USD: ${minersRevenue}`));
+    list.append($("<li>").text(`Next Target: ${nextTarget}`));
+    list.append($("<li>").text(`Difficulty: ${difficulty}`));
+    list.append($("<li>").text(`Trade Volume USD: ${tradeVolume}`));
+
+    };
+
+    renderCurrent();
+    setInterval(function(a) {
+      console.log("about to render");
+      renderCurrent();
+    }, 20000);
+
+
+let nowTimeDiv = $('.nowTime'),
+ahora;
+setInterval(function(a){
+  ahora = __WEBPACK_IMPORTED_MODULE_1__util_functions__["e" /* renderNiceTimeDate */](new Date);
+  nowTimeDiv.html(ahora[0]);
+}, 1000);
 
 
 /***/ }),
@@ -25029,35 +25061,31 @@ const showData = (data) => {
 
 
 
-const renderCurrentBitData = () => d3.json("https://api.coindesk.com/v1/bpi/currentprice.json", function(error, data) {
-  if(error){
-    console.log(error);
-  }else {
-    window.currentprice = data;
-    renderCurrent(data);
-  }
-});
-/* harmony export (immutable) */ __webpack_exports__["a"] = renderCurrentBitData;
-
-
-
-const renderCurrent = (data) => {
-  console.log("hello");
-  const dateTime = __WEBPACK_IMPORTED_MODULE_0__util_functions__["d" /* renderNiceTimeDate */](data.time.updated),
-  time = dateTime[0],
-  date = dateTime[1];
-  const price = data.bpi.USD.rate;
-
-  const divTime = $(".bitCoinTime"),
-    divDate =  $(".bitCoinDate"),
-   divPrice = $('.bitCoinPrice');
-
-   divTime.html(time);
-   divDate.html(date);
-   divPrice.html(` $ ${price}`);
-};
-/* unused harmony export renderCurrent */
-
+// export const renderCurrentBitData = () => d3.json("https://api.coindesk.com/v1/bpi/currentprice.json", function(error, data) {
+//   if(error){
+//     console.log(error);
+//   }else {
+//     window.currentprice = data;
+//     renderCurrent(data);
+//   }
+// });
+//
+//
+// export const renderCurrent = (data) => {
+//   console.log("hello");
+//   const dateTime = UtilFunction.renderNiceTimeDate(data.time.updated),
+//   time = dateTime[0],
+//   date = dateTime[1];
+//   const price = data.bpi.USD.rate;
+//
+//   const divTime = $(".bitCoinTime"),
+//     divDate =  $(".bitCoinDate"),
+//    divPrice = $('.bitCoinPrice');
+//
+//    divTime.html(time);
+//    divDate.html(date);
+//    divPrice.html(` $ ${price}`);
+// };
 
 
 /***/ })
