@@ -10371,11 +10371,15 @@ const arrayOfWords = (docs) => {
 
 const objectCounter = (arrayWords) => {
   let uniqueWords = arrayWords.filter(__WEBPACK_IMPORTED_MODULE_1__util_functions__["h" /* onlyUnique */]);
-  let result = {};
+  let result = [];
+  let temp ;
   let count;
   uniqueWords.forEach(word => {
+    temp = {};
     count = countInArray(arrayWords, word);
-    result[word] = count;
+    temp["word"] = word;
+    temp["count"] = count;
+    result.push(temp);
   });
   return result;
 };
@@ -10392,14 +10396,34 @@ const countInArray = (array, what) => {
 ///
 ///
 
-
-const renderdateNews = () => {
+//
+const renderdateNews = (data) => {
   let div = __WEBPACK_IMPORTED_MODULE_0_d3__["select"]("#showData");
   div.selectAll("*").remove();
   let svg = __WEBPACK_IMPORTED_MODULE_0_d3__["select"]("#showData").append("svg")
     .attr("width", "960")
     .attr("height", "960");
 
+  let width = Number(svg.attr("width")),
+    height = Number(svg.attr("height"));
+  let format = __WEBPACK_IMPORTED_MODULE_0_d3__["format"](",d");
+
+  let color = __WEBPACK_IMPORTED_MODULE_0_d3__["scaleOrdinal"](__WEBPACK_IMPORTED_MODULE_0_d3__["schemeCategory20c"]);
+
+  let pack = __WEBPACK_IMPORTED_MODULE_0_d3__["pack"]()
+      .size([width, height])
+      .padding(1.5);
+
+  var root = __WEBPACK_IMPORTED_MODULE_0_d3__["hierarchy"]({children: classes})
+      .sum(function(d) { return d.value; })
+      .each(function(d) {
+        if (id = d.data.id) {
+          var id, i = id.lastIndexOf(".");
+          d.id = id;
+          d.package = id.slice(0, i);
+          d.class = id.slice(i + 1);
+        }
+      });
 
 
 };
