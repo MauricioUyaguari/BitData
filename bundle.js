@@ -5497,15 +5497,21 @@ function onlyUnique(value, index, self) {
 
 const deleteShortWords = (array) => {
   let filteredWords = [];
-
-for (var i = 0, l = array.length, w; i < l; i++) {
-      w = array[i];
-    if (!/^(#|\d+)/.test(w) && w.length > 3)
-        filteredWords.push(w);
-  }
+  let shortwords = ['the', 'it', 'is', 'we', 'all',
+  'a', 'an', 'by', 'to', 'you', 'me', 'he', 'she',
+   'they', 'we', 'how', 'it', 'i', 'are', 'to', 'for', 'of'];
+  array.forEach(word => {
+    if(word.length <= 3 || word[0] === "$" || shortwords.includes(word) || !isNaN(parseInt(word)) ){
+      return;
+    }
+    filteredWords.push(word);
+  });
   return filteredWords;
 };
 /* harmony export (immutable) */ __webpack_exports__["c"] = deleteShortWords;
+
+
+
 
 
 const lowerCase = (array) => {
@@ -10340,6 +10346,8 @@ const googleDateUrl = (date) => {
 fetchBitCoinNewsbyDate(new Date()).then(response => {
   let bitData = response.articles;
   let words = arrayOfWords(bitData);
+  let counter = objectCounter(words);
+  console.log(counter);
   console.log(words);
 });
 
@@ -10356,6 +10364,44 @@ const arrayOfWords = (docs) => {
     result = result.concat(headlineString);
   });
   return result;
+};
+
+
+
+
+const objectCounter = (arrayWords) => {
+  let uniqueWords = arrayWords.filter(__WEBPACK_IMPORTED_MODULE_1__util_functions__["h" /* onlyUnique */]);
+  let result = {};
+  let count;
+  uniqueWords.forEach(word => {
+    count = countInArray(arrayWords, word);
+    result[word] = count;
+  });
+  return result;
+};
+
+
+const countInArray = (array, what) => {
+  return array.filter(item => item == what).length;
+
+};
+
+
+
+
+///
+///
+
+
+const renderdateNews = () => {
+  let div = __WEBPACK_IMPORTED_MODULE_0_d3__["select"]("#showData");
+  div.selectAll("*").remove();
+  let svg = __WEBPACK_IMPORTED_MODULE_0_d3__["select"]("#showData").append("svg")
+    .attr("width", "960")
+    .attr("height", "960");
+
+
+
 };
 
 
