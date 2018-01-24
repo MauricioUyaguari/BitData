@@ -20,12 +20,14 @@ padding: 10px;
 .bitcoin-img {
   padding: 20px;
   margin: 10px;
+  height: 150px;
+  width: 200px;
 }
 .header-title {
   margin: 10px;
 -moz-osx-font-smoothing: grayscale;
 font-size: 3rem;
-color: black;
+color: white;
 text-transform: uppercase;
 font-weight: 300;
 letter-spacing: 1px;
@@ -36,10 +38,24 @@ z-index: 2;
 
 /* bitcoin major chart */
 
+#main {
+  display: flex;
+  background: black;
+  flex-direction: column;
+}
+.chart-label {
+  color: white;
+  margin-bottom: -38px;
+  text-align: center;
+  z-index: 1;
+}
+
+
 .show{
   display: flex;
   align-items: center;
   background: black;
+  justify-content: center;
 
 }
 
@@ -87,6 +103,7 @@ z-index: 2;
 #currentPriceDiv {
 
   color: white;
+  justify-content: center;
 }
 
 

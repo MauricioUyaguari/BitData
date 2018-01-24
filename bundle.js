@@ -2626,7 +2626,9 @@ const deleteShortWords = (array) => {
   let filteredWords = [];
   let shortwords = ['the', 'it', 'is', 'we', 'all',
   'a', 'an', 'by', 'to', 'you', 'me', 'he', 'she',
-   'they', 'we', 'how', 'it', 'i', 'are', 'to', 'for', 'of'];
+   'they', 'we', 'how', 'it', 'i', 'are', 'to', 'for', 'of','that','from', 'this', 'from',
+   'with', 'just', 'your', 'about', 'like', 'read', 'some', 'will', 'which', 'have', 'when',
+   'after', 'down', 'been', 'once', 'come'];
   array.forEach(word => {
     if(word.length <= 3 || word[0] === "$" || shortwords.includes(word) || !isNaN(parseInt(word)) ){
       return;
@@ -10146,10 +10148,13 @@ function transform(node) {
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_d3__ = __webpack_require__(50);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_functions__ = __webpack_require__(49);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__lastMonth__ = __webpack_require__(465);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__currentData__ = __webpack_require__(466);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__currentNews__ = __webpack_require__(467);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_news_functions_js__ = __webpack_require__(468);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__lastMonth__ = __webpack_require__(465);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__currentData__ = __webpack_require__(466);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__currentNews__ = __webpack_require__(467);
 var Papa = __webpack_require__(174);
+
+
 
 
 
@@ -10294,26 +10299,26 @@ const renderBitChart = (data, range) => {
 
 
 // displays all current Bit Coin Information
-__WEBPACK_IMPORTED_MODULE_3__currentData__["a" /* renderCurrent */]();
+__WEBPACK_IMPORTED_MODULE_4__currentData__["a" /* renderCurrent */]();
 setInterval(function(a) {
     console.log("about to render");
-    __WEBPACK_IMPORTED_MODULE_3__currentData__["a" /* renderCurrent */]();
+    __WEBPACK_IMPORTED_MODULE_4__currentData__["a" /* renderCurrent */]();
   }, 20000);
 
 
 // Displays all Current Headlines
-__WEBPACK_IMPORTED_MODULE_4__currentNews__["a" /* renderAllCurrentHeadlines */]();
+__WEBPACK_IMPORTED_MODULE_5__currentNews__["a" /* renderAllCurrentHeadlines */]();
 setInterval(function(a) {
     console.log("about to render all Current News");
-    __WEBPACK_IMPORTED_MODULE_4__currentNews__["a" /* renderAllCurrentHeadlines */]();
+    __WEBPACK_IMPORTED_MODULE_5__currentNews__["a" /* renderAllCurrentHeadlines */]();
   }, 60000);
 
 
 //
-__WEBPACK_IMPORTED_MODULE_4__currentNews__["b" /* renderBitCoinHeadLines */]();
+__WEBPACK_IMPORTED_MODULE_5__currentNews__["b" /* renderBitCoinHeadLines */]();
 setInterval(function(a) {
     console.log("about to render all Current News");
-    __WEBPACK_IMPORTED_MODULE_4__currentNews__["b" /* renderBitCoinHeadLines */]();
+    __WEBPACK_IMPORTED_MODULE_5__currentNews__["b" /* renderBitCoinHeadLines */]();
   }, 60000);
 
 
@@ -10349,11 +10354,14 @@ const googleDateUrl = (date) => {
   };
 
 fetchBitCoinNewsbyDate(new Date()).then(response => {
+  window.response = response;
   let bitData = response.articles;
   let words = arrayOfWords(bitData);
   let counter = objectCounter(words);
   console.log(counter);
   console.log(words);
+  let result = __WEBPACK_IMPORTED_MODULE_2__util_news_functions_js__["a" /* topWords */](10, counter);
+  renderdateNews(result);
 });
 
 
@@ -10401,70 +10409,52 @@ const countInArray = (array, what) => {
 ///
 ///
 
+
+
+
 //
 const renderdateNews = (data) => {
-  let div = __WEBPACK_IMPORTED_MODULE_0_d3__["select"]("#showData");
-  div.selectAll("*").remove();
-  let svg = __WEBPACK_IMPORTED_MODULE_0_d3__["select"]("#showData").append("svg")
-    .attr("width", "960")
-    .attr("height", "960");
 
-  let width = Number(svg.attr("width")),
-    height = Number(svg.attr("height"));
-  let format = __WEBPACK_IMPORTED_MODULE_0_d3__["format"](",d");
 
-  let color = __WEBPACK_IMPORTED_MODULE_0_d3__["scaleOrdinal"](__WEBPACK_IMPORTED_MODULE_0_d3__["schemeCategory20c"]);
+  let width = 800,
+  height = 800;
+  let svg = __WEBPACK_IMPORTED_MODULE_0_d3__["select"]("#newsVis").append("svg")
+    .attr("width", width)
+    .attr("height", height)
+    .append("g")
+    .attr("transform", "translate(0,0)");
 
-  let pack = __WEBPACK_IMPORTED_MODULE_0_d3__["pack"]()
-      .size([width, height])
-      .padding(1.5);
+    let simulation = __WEBPACK_IMPORTED_MODULE_0_d3__["forceSimulation"]()
+    .force("x", __WEBPACK_IMPORTED_MODULE_0_d3__["forceX"](width/2).strength(0.05))
+    .force("y", __WEBPACK_IMPORTED_MODULE_0_d3__["forceY"](height/2).strength(0.05))
+    .force("collide", __WEBPACK_IMPORTED_MODULE_0_d3__["forceCollide"](10));
 
-      __WEBPACK_IMPORTED_MODULE_0_d3__["csv"]("flare.csv", function(d)
-      {
-        d.value = +d.value;
-        if (d.value) return d;
-      }, function(error, classes) {
-        if (error) throw error;
+    let circles = svg.selectAll(".words")
+    .data(data)
+    .enter().append('circle')
+    .attr("class", "words")
+    .attr("r", 10)
+    .attr("fill", "lightblue")
+    .attr("cx", 100)
+    .attr("cy", 100);
 
-        var root = __WEBPACK_IMPORTED_MODULE_0_d3__["hierarchy"]({children: classes})
-            .sum(function(d) { return d.value; })
-            .each(function(d) {
-              if (id = d.data.id) {
-                var id, i = id.lastIndexOf(".");
-                d.id = id;
-                d.package = id.slice(0, i);
-                d.class = id.slice(i + 1);
-              }
-            });
 
-        var node = svg.selectAll(".node")
-          .data(pack(root).leaves())
-          .enter().append("g")
-            .attr("class", "node")
-            .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+    simulation.nodes(data)
+      .on('tick', ticked);
 
-        node.append("circle")
-            .attr("id", function(d) { return d.id; })
-            .attr("r", function(d) { return d.r; })
-            .style("fill", function(d) { return color(d.package); });
 
-        node.append("clipPath")
-            .attr("id", function(d) { return "clip-" + d.id; })
-          .append("use")
-            .attr("xlink:href", function(d) { return "#" + d.id; });
+      function ticked() {
+        circles
+          .attr("cx", function(d) {
+            return d.x;
+          })
+          .attr("cy", function(d){
+            return d.y;
+          });
+      }
 
-        node.append("text")
-            .attr("clip-path", function(d) { return "url(#clip-" + d.id + ")"; })
-          .selectAll("tspan")
-          .data(function(d) { return d.class.split(/(?=[A-Z][^A-Z])/g); })
-          .enter().append("tspan")
-            .attr("x", 0)
-            .attr("y", function(d, i, nodes) { return 13 + (i - nodes.length / 2 - 0.5) * 10; })
-            .text(function(d) { return d; });
 
-        node.append("title")
-            .text(function(d) { return d.id + "\n" + format(d.value); });
-      });
+
 
 
 };
@@ -25416,6 +25406,45 @@ const fetchBitCoinHeadLines = () => {
       newsli.wrap('<a href="' + url + '" />');
     });
   };
+
+
+/***/ }),
+/* 468 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__functions__ = __webpack_require__(49);
+
+
+
+const topWords = (x, counter) => {
+  x = 10;
+  let top = [], values;
+  let sorted = counter.sort( function(a,b){
+    return b.count - a.count;
+  });
+
+  counter.forEach(el =>{
+    top.push(el.count);
+  });
+
+  top.sort(function(a,b) { return b - a;});
+  top = top.filter( __WEBPACK_IMPORTED_MODULE_0__functions__["h" /* onlyUnique */]);
+
+  top = top.slice(0,12);
+
+  let result = [];
+
+  counter.forEach(data => {
+    if(top.includes(data.count)){
+      result.push(data);
+    }
+  });
+  return result;
+
+};
+/* harmony export (immutable) */ __webpack_exports__["a"] = topWords;
+
 
 
 /***/ })
