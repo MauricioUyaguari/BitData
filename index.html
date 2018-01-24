@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link rel="shortcut icon" href="./images/favicon2.ico" type="image/x-icon">
+    <link rel="icon" href="./images/favicon2.ico" type="image/x-icon">
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
      <script src="https://use.fontawesome.com/2f18af269b.js"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.4/js/all.js"></script>
@@ -10,64 +12,77 @@
     <title>BitData</title>
   </head>
   <body>
-    <div id="main">
-      <h1>BitData DashBoard</h1>
-      <div id="body">
-        <div class="div-buttons">
-          <button class="bitcoin-button">All</button>
-          <button class="bitcoin-button">5y</button>
-          <button class="1y-button">1y</button>
-          <button class="6m-button">6m</button>
-          <button class="3m-button">3m</button>
-          <button class="1m-button">1m</button>
-          <button class="15d-button">15d</button>
-        </div>
-                  <div>CoinBase Stock Price Over the Years</div>
-        <div id="showData">
-
-        </div>
-        </div>
-      </div>
-      <div id="newsVis">
-
-      </div>
-
-      <div id="currentPriceDiv">
-        Current Time
-        <div class="nowTime">
-        </div>
-        Last Updated
-        <div class="bitCoinTimeDate">
-          <div class="bitCoinTime"></div>
-          <div class="bitCoinDate"></div>
-        </div>
-        Current Price
-        <div class="bitCoinPrice">
-        </div>
-        <div class="additional-stats">
-          <ul class="current-add-info">
-          </ul>
-        </div>
-      </div>
-
-      <div>
-        <dvi>
-          <div class="bitCoinNews"> BitCoin News</div>
-          <div>
-            <ul class="bitcoinNews">
-            </ul>
+    <div class="body-div">
+      <div id="main">
+          <h1 class="h1-header">
+              <img class="bitcoin-img" src="images/bitcoin.jpg" alt="" />
+            <div class="header-title">
+              BitData DashBoard
+            </div>
+          </h1>
+          <div id="bitcoin-d3">
+            <div>
+              <div>
+                CoinBase Stock Price Over the Years
+              </div>
+            </div>
+            <div class="show">
+              <div id="showData"></div>
+              <div class="div-buttons">
+                <button class="bitcoin-button">All</button>
+                <button class="bitcoin-button">5y</button>
+                <button class="1y-button">1y</button>
+                <button class="6m-button">6m</button>
+                <button class="3m-button">3m</button>
+                <button class="1m-button">1m</button>
+                <button class="15d-button">15d</button>
+              </div>
+              <div id="currentPriceDiv">
+                <div>
+                  <div>
+                    <div>Current Market Value</div>
+                    <div class="bitCoinPrice"></div>
+                  </div>
+                  <div>
+                    <span>Current Time</span>
+                    <div class="nowTime"></div>
+                  </div>
+                  <div>
+                    <div class="bitCoinTimeDate">
+                      <span>  Last Updated</span>
+                      <div class="bitCoinTime"></div>
+                      <div class="bitCoinDate"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="additional-stats">
+                  <ul class="current-add-info">
+                  </ul>
+                </div>
+              </div>
+            </div>
           </div>
-        </dvi>
-        <div>Breakings News</div>
-        <dvi>
-          <div> All News</div>
-          <div>
-            <ul class="allNews">
-            </ul>
-          </div>
-        </dvi>
+        </div>
+        <!-- end of main  -->
+        <div id="newsVis"> <div>
+        <div>
+          <dvi>
+            <div class="bitCoinNews"> BitCoin News</div>
+            <div>
+              <ul class="bitcoinNews">
+              </ul>
+            </div>
+          </dvi>
+          <div>Breakings News</div>
+          <dvi>
+            <div> All News</div>
+            <div>
+              <ul class="allNews">
+              </ul>
+            </div>
+          </dvi>
+        </div>
       </div>
-    </div>
   </body>
   <footer>
     <div>

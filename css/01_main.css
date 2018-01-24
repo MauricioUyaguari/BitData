@@ -2,3 +2,95 @@
   fill: none;
   pointer-events: all;
 }
+
+
+.h1 {
+  display: flex;
+align-items: center;
+justify-content: center;
+padding: 10px;
+}
+
+.h1-header{
+  text-align: center
+}
+
+
+
+.bitcoin-img {
+  padding: 20px;
+  margin: 10px;
+}
+.header-title {
+  margin: 10px;
+-moz-osx-font-smoothing: grayscale;
+font-size: 3rem;
+color: black;
+text-transform: uppercase;
+font-weight: 300;
+letter-spacing: 1px;
+position: relative;
+z-index: 2;
+}
+
+
+/* bitcoin major chart */
+
+.show{
+  display: flex;
+  align-items: center;
+  background: black;
+
+}
+
+.tick {
+  stroke: steelblue;
+}
+
+.div-buttons {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  margin-top: 30px
+}
+
+.div-buttons * {
+  height: 34px;
+    padding: 0 20px;
+    line-height: 13px;
+    color: blue;
+    border: 1px solid #202121;
+    border-radius: 36px;
+    overflow: hidden;
+    -webkit-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+    margin: 10px;
+    cursor: pointer;
+
+}
+
+.main-svg {
+  padding-left: 20px;
+  stroke: steelblue;
+}
+
+.yAxisRed line {
+  stroke: steelblue;
+}
+
+.xAxisRed line {
+  stroke: steelblue;
+}
+
+
+/*  current */
+#currentPriceDiv {
+
+  color: white;
+}
+
+
+#currentPriceDiv {
+  display: flex;
+  padding-left: 40px;
+}

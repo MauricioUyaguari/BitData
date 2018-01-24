@@ -10212,6 +10212,7 @@ const renderBitChart = (data, range) => {
 
   window.data = data;
   let svg = __WEBPACK_IMPORTED_MODULE_0_d3__["select"]("#showData").append("svg")
+    .attr("class", "main-svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
   .append("g")
@@ -10223,14 +10224,17 @@ const renderBitChart = (data, range) => {
   .nice();
 
   svg.append("g")
-      .call(__WEBPACK_IMPORTED_MODULE_0_d3__["axisLeft"](y).ticks(20))
-      .append("text")
-      .attr("fill", "gray")
-      .attr("transform", "rotate(-90)")
-      .attr("y", 5)
-      .attr("dy", "0.71em")
-      .attr("text-anchor", "end")
-      .text("Close Price ($)");
+      .attr("class", "yAxisRed")
+      .call(__WEBPACK_IMPORTED_MODULE_0_d3__["axisLeft"](y))
+      .attr("stroke", "steelblue");
+      // .append("text")
+      // .attr("stroke", "white")
+      // .attr("fill", "gray")
+      // .attr("transform", "rotate(-90)")
+      // .attr("y", 5)
+      // .attr("dy", "0.71em")
+      // .attr("text-anchor", "end")
+      // .text("Closing Price ($)");
 
 
       let x = __WEBPACK_IMPORTED_MODULE_0_d3__["scaleTime"]()
@@ -10239,6 +10243,7 @@ const renderBitChart = (data, range) => {
         // .nice();
 
       svg.append("g")
+          .attr("class", "xAxisRed")
           .attr("transform", "translate(0," + height + ")")
           .call(__WEBPACK_IMPORTED_MODULE_0_d3__["axisBottom"](x));
 
