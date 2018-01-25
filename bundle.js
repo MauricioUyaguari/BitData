@@ -10152,7 +10152,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__lastMonth__ = __webpack_require__(465);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__currentData__ = __webpack_require__(466);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__currentNews__ = __webpack_require__(467);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__historical_news__ = __webpack_require__(469);
 var Papa = __webpack_require__(174);
+
 
 
 
@@ -10163,26 +10165,13 @@ var Papa = __webpack_require__(174);
 window.d3 = __WEBPACK_IMPORTED_MODULE_0_d3__;
 
 
-// document.addEventListener('DOMContentLoaded', function () {
-
-  // lastMonth.getData();
-
-// });
-
-
-
 
 const divButtons = document.querySelector(".div-buttons");
-
-
 divButtons.addEventListener("click", (e) => {
   const buttonChoice = e.target.innerHTML;
   renderBitData(buttonChoice);
 
 });
-
-
-
 
 
 const renderBitData = (rangeDateInput) => {
@@ -10232,15 +10221,6 @@ const renderBitChart = (data, range) => {
       .attr("class", "yAxisRed")
       .call(__WEBPACK_IMPORTED_MODULE_0_d3__["axisLeft"](y))
       .attr("stroke", "steelblue");
-      // .append("text")
-      // .attr("stroke", "white")
-      // .attr("fill", "gray")
-      // .attr("transform", "rotate(-90)")
-      // .attr("y", 5)
-      // .attr("dy", "0.71em")
-      // .attr("text-anchor", "end")
-      // .text("Closing Price ($)");
-
 
       let x = __WEBPACK_IMPORTED_MODULE_0_d3__["scaleTime"]()
         .rangeRound([0, width])
@@ -10261,8 +10241,9 @@ const renderBitChart = (data, range) => {
           .attr("stroke", "steelblue")
           .attr("stroke-linejoin", "round")
           .attr("stroke-linecap", "round")
-          .attr("stroke-width", 1.5)
+          .attr("stroke-width", 2.5)
           .attr("d", line);
+
       let focus = svg.append("g")
         .attr("class", "focus")
         .style("display", "none");
@@ -10294,6 +10275,7 @@ const renderBitChart = (data, range) => {
                 d = x0 - d0.date > d1.date - x0 ? d1 : d0;
             focus.attr("transform", "translate(" + x(d.date) + "," + y(d.close) + ")");
             focus.select("text").text((__WEBPACK_IMPORTED_MODULE_1__util_functions__["d" /* formatToCurrency */](d.close)));
+
           }
 };
 
@@ -10361,7 +10343,7 @@ fetchBitCoinNewsbyDate(new Date()).then(response => {
   console.log(counter);
   console.log(words);
   let result = __WEBPACK_IMPORTED_MODULE_2__util_news_functions_js__["a" /* topWords */](10, counter);
-  renderdateNews(result);
+  __WEBPACK_IMPORTED_MODULE_6__historical_news__["a" /* renderdateNews */](result);
 });
 
 
@@ -10400,62 +10382,6 @@ const objectCounter = (arrayWords) => {
 
 const countInArray = (array, what) => {
   return array.filter(item => item == what).length;
-
-};
-
-
-
-
-///
-///
-
-
-
-
-//
-const renderdateNews = (data) => {
-
-
-  let width = 800,
-  height = 800;
-  let svg = __WEBPACK_IMPORTED_MODULE_0_d3__["select"]("#newsVis").append("svg")
-    .attr("width", width)
-    .attr("height", height)
-    .append("g")
-    .attr("transform", "translate(0,0)");
-
-    let simulation = __WEBPACK_IMPORTED_MODULE_0_d3__["forceSimulation"]()
-    .force("x", __WEBPACK_IMPORTED_MODULE_0_d3__["forceX"](width/2).strength(0.05))
-    .force("y", __WEBPACK_IMPORTED_MODULE_0_d3__["forceY"](height/2).strength(0.05))
-    .force("collide", __WEBPACK_IMPORTED_MODULE_0_d3__["forceCollide"](10));
-
-    let circles = svg.selectAll(".words")
-    .data(data)
-    .enter().append('circle')
-    .attr("class", "words")
-    .attr("r", 10)
-    .attr("fill", "lightblue")
-    .attr("cx", 100)
-    .attr("cy", 100);
-
-
-    simulation.nodes(data)
-      .on('tick', ticked);
-
-
-      function ticked() {
-        circles
-          .attr("cx", function(d) {
-            return d.x;
-          })
-          .attr("cy", function(d){
-            return d.y;
-          });
-      }
-
-
-
-
 
 };
 
@@ -25444,6 +25370,76 @@ const topWords = (x, counter) => {
 
 };
 /* harmony export (immutable) */ __webpack_exports__["a"] = topWords;
+
+
+
+/***/ }),
+/* 469 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+const renderdateNews = (data) => {
+  window.newsdata = data;
+  let width = 800,
+  height = 800;
+  let svg = d3.select("#newsVis").append("svg")
+    .attr("width", width)
+    .attr("height", height)
+    .append("g")
+    .attr("transform", "translate(0,0)");
+    let max = data[0].count;
+    let min = data[data.length-1].count;
+    let radiusScale = d3.scaleSqrt().domain([min, max]).range([10,100]);
+
+    let simulation = d3.forceSimulation()
+    .force("x", d3.forceX(width/2).strength(0.05))
+    .force("y", d3.forceY(height/2).strength(0.05))
+    .force("collide", d3.forceCollide( function(d){
+      return radiusScale(d.count);
+    }));
+
+    let circles = svg.selectAll(".words")
+    .data(data)
+    .enter()
+    .append('circle')
+    .attr("class", "words")
+    .attr("r", function(d){
+      return radiusScale(d.count);
+    })
+    .attr("fill", "steelblue")
+    .attr("cx", 100)
+    .attr("cy", 100);
+
+    let texts = svg.selectAll(null)
+        .data(data)
+        .enter()
+        .append('text')
+        .text(d => d.word)
+        .attr('color', 'black')
+        .attr('font-size', 15);
+
+  let nodes = simulation.nodes(data)
+      .on('tick', ticked);
+
+      function ticked() {
+        circles
+          .attr("cx", function(d) {
+            return d.x;
+          })
+          .attr("cy", function(d){
+            return d.y;
+          });
+
+      texts.attr('x', (d) => {
+          return d.x - 5;
+      })
+      .attr('y', (d) => {
+          return d.y;
+      });
+
+      }
+};
+/* harmony export (immutable) */ __webpack_exports__["a"] = renderdateNews;
 
 
 
