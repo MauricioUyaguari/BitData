@@ -10165,7 +10165,6 @@ var Papa = __webpack_require__(174);
 window.d3 = __WEBPACK_IMPORTED_MODULE_0_d3__;
 
 
-
 const divButtons = document.querySelector(".div-buttons");
 divButtons.addEventListener("click", (e) => {
   const buttonChoice = e.target.innerHTML;
@@ -10200,8 +10199,8 @@ const renderBitChart = (data, range) => {
   let div = __WEBPACK_IMPORTED_MODULE_0_d3__["select"]("#showData");
     div.selectAll("*").remove();
 
-  let margin = {top: 80, right: 50, bottom: 30, left: 40},
-    width = 960 - margin.left - margin.right,
+  let margin = {top: 80, right: 20, bottom: 30, left: 20},
+    width = 800 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
   window.data = data;
@@ -10276,7 +10275,7 @@ const renderBitChart = (data, range) => {
             focus.attr("transform", "translate(" + x(d.date) + "," + y(d.close) + ")");
             focus.select("text").text( `${(__WEBPACK_IMPORTED_MODULE_1__util_functions__["d" /* formatToCurrency */](d.close))}`);
           }
-          
+
           function give() {
             let x0 = x.invert(__WEBPACK_IMPORTED_MODULE_0_d3__["mouse"](this)[0]),
                 i = bisectDate(data, x0, 1),
@@ -25251,17 +25250,17 @@ const renderAdditionalCurrent = (data) => {
   difficulty = __WEBPACK_IMPORTED_MODULE_0__util_functions__["g" /* numberWithCommas */](data.difficulty),
   tradeVolume = __WEBPACK_IMPORTED_MODULE_0__util_functions__["d" /* formatToCurrency */](data.trade_volume_usd.toFixed(2));
 
-list.append($("<li>").text(`hashrate: ${hashrate}`));
-list.append($("<li>").text(`Total Transaction Fees: ${totalFeesbtc}`));
-list.append($("<li>").text(`Number of BTC Mined: ${btcMined}`));
-list.append($("<li>").text(`Number of Transactions: ${nTransactions}`));
-list.append($("<li>").text(`Number of Blocks Mined: ${nBlocksMined}`));
-list.append($("<li>").text(`Average Minutes Betweens Block: ${aMinutesBetweenBlocks}`));
-list.append($("<li>").text(`Estimated Transaction Volume USD: ${tVolumeUSD}`));
-list.append($("<li>").text(`Miners Revenue USD: ${minersRevenue}`));
-list.append($("<li>").text(`Next Target: ${nextTarget}`));
-list.append($("<li>").text(`Difficulty: ${difficulty}`));
-list.append($("<li>").text(`Trade Volume USD: ${tradeVolume}`));
+list.append($("<li>").addClass("currentBitLi").append(`<strong> Hashrate: </strong> ${hashrate}` ));
+list.append($("<li>").addClass("currentBitLi").text(`Total Transaction Fees: ${totalFeesbtc}`));
+list.append($("<li>").addClass("currentBitLi").text(`Number of BTC Mined: ${btcMined}`));
+list.append($("<li>").addClass("currentBitLi").text(`Number of Transactions: ${nTransactions}`));
+list.append($("<li>").addClass("currentBitLi").text(`Number of Blocks Mined: ${nBlocksMined}`));
+list.append($("<li>").addClass("currentBitLi").text(`Average Minutes Betweens Block: ${aMinutesBetweenBlocks}`));
+list.append($("<li>").addClass("currentBitLi").text(`Estimated Transaction Volume USD: ${tVolumeUSD}`));
+list.append($("<li>").addClass("currentBitLi").text(`Miners Revenue USD: ${minersRevenue}`));
+list.append($("<li>").addClass("currentBitLi").text(`Next Target: ${nextTarget}`));
+list.append($("<li>").addClass("currentBitLi").text(`Difficulty: ${difficulty}`));
+list.append($("<li>").addClass("currentBitLi").text(`Trade Volume USD: ${tradeVolume}`));
 
 };
 /* unused harmony export renderAdditionalCurrent */

@@ -18,9 +18,50 @@
             <div class="header-title">BitData DashBoard</div>
             <img class="bitcoin-img" src="images/bitcoin2.jpg" alt="" />
           </h1>
+          <div >
+            <div id="currentPriceDiv">
+            <div>
+              <div>
+                <div class="currentPrice-header">Time</div>
+                <div class="nowTime"></div>
+              </div>
+              <div>
+                <div class="currentPrice-header">Current Market Value</div>
+                <div class="bitCoinPrice"></div>
+              </div>
+              <div>
+                <div class="bitCoinTimeDate">
+                  <div class="currentPrice-header">  Last Updated</div>
+                  <div class="bitCoinTime"></div>
+                  <div class="bitCoinDate"></div>
+                </div>
+              </div>
+            </div>
+            <div class="additional-stats">
+              <div>Today in a NutShell...</div>
+              <ul class="current-add-info">
+              </ul>
+            </div>
+          </div>
+            <div class="allcurrentNews">
+              <div class="bitCoinNews-div">
+                <div class="bitCoinNews"> BitCoin News</div>
+                <div id="list-of-bitcoin-news">
+                  <ul class="bitcoinNews">
+                  </ul>
+                </div>
+              </div>
+              <div class="allNews-div">
+                <div> Breaking News</div>
+                <div>
+                  <ul class="allNews">
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="chart-label">CoinBase Stock Price Over the Years</div>
           <div id="bitcoin-d3">
-            <div class="show">
               <div id="showData"></div>
               <div>
                 <div class="div-buttons">
@@ -32,56 +73,15 @@
                   <button class="bitcoin-button">5y</button>
                   <button class="bitcoin-button">All</button>
                 </div>
-                <div>label</div>
               </div>
-            </div>
-          </div>
-
-          <div id="currentPriceDiv">
-            <div>
-              <div>
-                <div>Current Market Value</div>
-                <div class="bitCoinPrice"></div>
-              </div>
-              <div>
-                <span>Current Time</span>
-                <div class="nowTime"></div>
-              </div>
-              <div>
-                <div class="bitCoinTimeDate">
-                  <span>  Last Updated</span>
-                  <div class="bitCoinTime"></div>
-                  <div class="bitCoinDate"></div>
-                </div>
-              </div>
-            </div>
-            <div class="additional-stats">
-              <ul class="current-add-info">
-              </ul>
-            </div>
           </div>
         </div>
 
 
         <!-- end of main  -->
         <div id="newsVis"> </div>
-        <div>
-          <div>
-            <div class="bitCoinNews"> BitCoin News</div>
-            <div id="list-of-bitcoin-news">
-              <ul class="bitcoinNews">
-              </ul>
-            </div>
-          </dive>
-          <div>
-            <div> Breaking News</div>
-            <div>
-              <ul class="allNews">
-              </ul>
-            </div>
-          </div>
+
         </div>
-      </div>
   </body>
   <footer>
     <div>
