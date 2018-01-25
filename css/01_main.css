@@ -1,3 +1,7 @@
+
+
+
+
  .overlay {
   fill: none;
   pointer-events: all;
@@ -36,10 +40,21 @@ padding: 10px;
 }
 
 
+
+/*  Current */
+.current-div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+
 #currentPriceDiv{
   display: flex;
   justify-content: space-around;
   color: white;
+  flex-direction: column;
+  flex: 1;
 }
 
 .nowTime, .bitCoinPrice,  .bitCoinTime{
@@ -64,14 +79,21 @@ padding: 10px;
 
 .current-add-info {
   list-style: none;
-    list-style-image: url(../images/arrow.png);
-    color: green;
-    font-size: 18px;
-    text-align: left;
+  color: green;
+  font-size: 18px;
+  text-align: left;
+  padding: 0px;
+  margin: 0px;
+  color: #DAA520;
 }
 
 .currentBitLi {
-  padding: 5px;
+  padding: 0px;
+  font-size: 14px;
+}
+
+.currentBitLi strong {
+  color: #4db797;
 }
 
 
@@ -81,12 +103,26 @@ padding: 10px;
     list-style: none;
     text-decoration: none;
     display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+.allcurrentNews {
+  padding: 5px;
 }
 
 .bitCoinNews-div, .allNews-div {
   color: white;
 }
 
+.bitcoinNews-info-div 
+
+.bitcoinNews-li, .currentNews-li {
+  color: white;
+  list-style: none;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+}
 
 
 

@@ -10308,7 +10308,7 @@ __WEBPACK_IMPORTED_MODULE_5__currentNews__["a" /* renderAllCurrentHeadlines */](
 setInterval(function(a) {
     console.log("about to render all Current News");
     __WEBPACK_IMPORTED_MODULE_5__currentNews__["a" /* renderAllCurrentHeadlines */]();
-  }, 60000);
+  }, 600000);
 
 
 //
@@ -10316,7 +10316,7 @@ __WEBPACK_IMPORTED_MODULE_5__currentNews__["b" /* renderBitCoinHeadLines */]();
 setInterval(function(a) {
     console.log("about to render all Current News");
     __WEBPACK_IMPORTED_MODULE_5__currentNews__["b" /* renderBitCoinHeadLines */]();
-  }, 60000);
+  }, 600000);
 
 
 
@@ -10327,10 +10327,9 @@ setInterval(function(a) {
 window.googleDate = __WEBPACK_IMPORTED_MODULE_1__util_functions__["e" /* googleDate */];
 
 const googleDateUrl = (date) => {
-  debugger
   date = new Date (date);
   let todate = __WEBPACK_IMPORTED_MODULE_1__util_functions__["e" /* googleDate */](date);
-  debugger
+
   let url = 'https://newsapi.org/v2/everything?' +
           'q=bitcoin&' +
           `from=${todate}&` +
@@ -10353,7 +10352,6 @@ const googleDateUrl = (date) => {
   };
 
 const fetchAndRender = (date) => {
-  debugger
     fetchBitCoinNewsbyDate(date).then(response => {
     window.response = response;
     let bitData = response.articles;
@@ -25251,16 +25249,16 @@ const renderAdditionalCurrent = (data) => {
   tradeVolume = __WEBPACK_IMPORTED_MODULE_0__util_functions__["d" /* formatToCurrency */](data.trade_volume_usd.toFixed(2));
 
 list.append($("<li>").addClass("currentBitLi").append(`<strong> Hashrate: </strong> ${hashrate}` ));
-list.append($("<li>").addClass("currentBitLi").text(`Total Transaction Fees: ${totalFeesbtc}`));
-list.append($("<li>").addClass("currentBitLi").text(`Number of BTC Mined: ${btcMined}`));
-list.append($("<li>").addClass("currentBitLi").text(`Number of Transactions: ${nTransactions}`));
-list.append($("<li>").addClass("currentBitLi").text(`Number of Blocks Mined: ${nBlocksMined}`));
-list.append($("<li>").addClass("currentBitLi").text(`Average Minutes Betweens Block: ${aMinutesBetweenBlocks}`));
-list.append($("<li>").addClass("currentBitLi").text(`Estimated Transaction Volume USD: ${tVolumeUSD}`));
-list.append($("<li>").addClass("currentBitLi").text(`Miners Revenue USD: ${minersRevenue}`));
-list.append($("<li>").addClass("currentBitLi").text(`Next Target: ${nextTarget}`));
-list.append($("<li>").addClass("currentBitLi").text(`Difficulty: ${difficulty}`));
-list.append($("<li>").addClass("currentBitLi").text(`Trade Volume USD: ${tradeVolume}`));
+list.append($("<li>").addClass("currentBitLi").append(`<strong> Total Bitcoin Fees: </strong> ${totalFeesbtc}`));
+list.append($("<li>").addClass("currentBitLi").append(`<strong> Bitcoins Mined: </strong>${btcMined}`));
+list.append($("<li>").addClass("currentBitLi").append(`<strong> Number of Transactions: </strong> ${nTransactions}`));
+list.append($("<li>").addClass("currentBitLi").append(`<strong> Blocks Mined: </strong> ${nBlocksMined}`));
+list.append($("<li>").addClass("currentBitLi").append(`<strong> Average Minute Between Blocks: </strong>${aMinutesBetweenBlocks}`));
+list.append($("<li>").addClass("currentBitLi").append(`<strong> Trade Volume: </strong>${tVolumeUSD}`));
+list.append($("<li>").addClass("currentBitLi").append(`<strong> Miners Revenue: </strong> ${minersRevenue}`));
+list.append($("<li>").addClass("currentBitLi").append(`<strong> Next Target: </strong>${nextTarget}`));
+list.append($("<li>").addClass("currentBitLi").append(`<strong> Difficulty: </strong> ${difficulty}`));
+list.append($("<li>").addClass("currentBitLi").append(`<strong> Trade Volume: </strong> ${tradeVolume}`));
 
 };
 /* unused harmony export renderAdditionalCurrent */
@@ -25292,20 +25290,24 @@ const fetchHeadLines = () => {
 };
 const renderCurrentAllNews = (data) => {
   let newsUl = $('.allNews');
-  let title, url, source, newsli, titlediv, timeFormat;
+  let title, url, source, newsli, titlediv, timeFormat, imgUrl;
   newsUl.empty();
-  data = data.slice(0,10);
+  data = data.slice(0,7);
   data.forEach(newsResponse => {
     title = newsResponse.title;
-    url = newsResponse.url;
+    url = newsResponse.url,
+    source = newsResponse.source.name;
+    imgUrl = newsResponse.urlToImage;
     // source = newsResponse.source.name;
     timeFormat = __WEBPACK_IMPORTED_MODULE_0__util_functions__["j" /* renderTimeHoursMinutes */](newsResponse.publishedAt);
-    newsUl.append($("<li>"));
+    newsUl.append($("<li>").addClass("currentNews-li"));
     newsli = (newsUl.children().last());
-    newsli.append($("<div>").text(`${title}`));
-    newsli.append($("<div>").text(`${source}`));
-    newsli.append($("<div>").text(`${timeFormat}`));
-    newsli.wrap('<a href="' + url + '" />');
+      newsli.append(`<img width="50px" height="50px" src="${imgUrl}"/>`);
+    newsli.append(`<div class="currentNews-info-div">
+                    <div> <a href="${url}" > ${title} </a> </div>
+                    <div> Source: ${source} </div>
+                    <div> Updated: ${timeFormat} </div>
+                  </div>`);
 
   }
   );
@@ -25335,20 +25337,23 @@ const fetchBitCoinHeadLines = () => {
 
   const renderCurrentBitCoinNews = (data) => {
     let newsUl = $('.bitcoinNews');
-    let title, url, source, newsli, titlediv, timeFormat;
+    let title, url, source, newsli, titlediv, timeFormat, imgUrl;
     newsUl.empty();
-    data = data.slice(0,10);
+    data = data.slice(0,7);
     data.forEach(newsResponse => {
       title = newsResponse.title;
       url = newsResponse.url;
       source = newsResponse.source.name;
       timeFormat = __WEBPACK_IMPORTED_MODULE_0__util_functions__["j" /* renderTimeHoursMinutes */](newsResponse.publishedAt);
-      newsUl.append($("<li>"));
+      imgUrl = newsResponse.urlToImage;
+      newsUl.append($("<li>").addClass("bitcoinNews-li"));
       newsli = (newsUl.children().last());
-      newsli.append($("<div>").text(`${title}`));
-      newsli.append($("<div>").text(`${source}`));
-      newsli.append($("<div>").text(`${timeFormat}`));
-      newsli.wrap('<a href="' + url + '" />');
+      newsli.append(`<img width="50px" height="50px" src="${imgUrl}"/>`);
+      newsli.append(`<div class="bitcoinNews-info-div">
+                      <div> <a href="${url}" > ${title} </a> </div>
+                      <div> Source: ${source} </div>
+                      <div> Updated: ${timeFormat} </div>
+                    </div>`);
     });
   };
 
