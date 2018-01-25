@@ -10248,11 +10248,15 @@ const renderBitChart = (data, range) => {
         .style("display", "none");
 
       focus.append("circle")
-          .attr("r", 4.5).attr("color", "red");
+          .attr("r", 4.5).attr("color", "red").attr("stroke", "white");
 
       focus.append("text")
           .attr("x", 9)
-          .attr("dy", ".35em");
+          .attr("color", "white")
+          .attr("stroke", "white")
+          .attr("dy", "1.35em")
+          .attr("dx", "-1.35em")
+          .attr("z-index", "1");
 
 
 
@@ -25304,7 +25308,7 @@ const renderCurrentAllNews = (data) => {
     newsli = (newsUl.children().last());
       newsli.append(`<img width="50px" height="50px" src="${imgUrl}"/>`);
     newsli.append(`<div class="currentNews-info-div">
-                    <div> <a href="${url}" > ${title} </a> </div>
+                    <p> <a href="${url}" > ${title} </a> </p>
                     <div> Source: ${source} </div>
                     <div> Updated: ${timeFormat} </div>
                   </div>`);
@@ -25350,7 +25354,7 @@ const fetchBitCoinHeadLines = () => {
       newsli = (newsUl.children().last());
       newsli.append(`<img width="50px" height="50px" src="${imgUrl}"/>`);
       newsli.append(`<div class="bitcoinNews-info-div">
-                      <div> <a href="${url}" > ${title} </a> </div>
+                      <p> <a href="${url}" > ${title} </a> </p>
                       <div> Source: ${source} </div>
                       <div> Updated: ${timeFormat} </div>
                     </div>`);
