@@ -10263,22 +10263,38 @@ const renderBitChart = (data, range) => {
           .attr("height", height)
           .on("mouseover", function() { focus.style("display", null); })
           .on("mouseout", function() { focus.style("display", "none"); })
-          .on("mousemove", mousemove);
+          .on("mousemove", mousemove)
+          .on("click", give);
 
       let bisectDate = __WEBPACK_IMPORTED_MODULE_0_d3__["bisector"](function(d) { return d.date; }).left;
-
           function mousemove() {
-            var x0 = x.invert(__WEBPACK_IMPORTED_MODULE_0_d3__["mouse"](this)[0]),
+            let x0 = x.invert(__WEBPACK_IMPORTED_MODULE_0_d3__["mouse"](this)[0]),
                 i = bisectDate(data, x0, 1),
                 d0 = data[i - 1],
                 d1 = data[i],
                 d = x0 - d0.date > d1.date - x0 ? d1 : d0;
             focus.attr("transform", "translate(" + x(d.date) + "," + y(d.close) + ")");
-            focus.select("text").text((__WEBPACK_IMPORTED_MODULE_1__util_functions__["d" /* formatToCurrency */](d.close)));
-
+            focus.select("text").text( `${(__WEBPACK_IMPORTED_MODULE_1__util_functions__["d" /* formatToCurrency */](d.close))}`);
           }
-};
+          
+          function give() {
+            let x0 = x.invert(__WEBPACK_IMPORTED_MODULE_0_d3__["mouse"](this)[0]),
+                i = bisectDate(data, x0, 1),
+                d0 = data[i - 1],
+                d1 = data[i],
+                d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+            displayDateInformation(d);
+          }
 
+
+
+  };
+
+
+
+const displayDateInformation = (mouseDate) => {
+  fetchAndRender(mouseDate.date);
+};
 
 // displays all current Bit Coin Information
 __WEBPACK_IMPORTED_MODULE_4__currentData__["a" /* renderCurrent */]();
@@ -10312,8 +10328,10 @@ setInterval(function(a) {
 window.googleDate = __WEBPACK_IMPORTED_MODULE_1__util_functions__["e" /* googleDate */];
 
 const googleDateUrl = (date) => {
+  debugger
   date = new Date (date);
   let todate = __WEBPACK_IMPORTED_MODULE_1__util_functions__["e" /* googleDate */](date);
+  debugger
   let url = 'https://newsapi.org/v2/everything?' +
           'q=bitcoin&' +
           `from=${todate}&` +
@@ -10326,8 +10344,8 @@ const googleDateUrl = (date) => {
 };
 
 
-  const fetchBitCoinNewsbyDate = () => {
-      let url = googleDateUrl();
+  const fetchBitCoinNewsbyDate = (date) => {
+      let url = googleDateUrl(date);
       window.url = url;
       return $.ajax({
       url: url,
@@ -10335,17 +10353,19 @@ const googleDateUrl = (date) => {
       });
   };
 
-fetchBitCoinNewsbyDate(new Date()).then(response => {
-  window.response = response;
-  let bitData = response.articles;
-  let words = arrayOfWords(bitData);
-  let counter = objectCounter(words);
-  console.log(counter);
-  console.log(words);
-  let result = __WEBPACK_IMPORTED_MODULE_2__util_news_functions_js__["a" /* topWords */](10, counter);
-  __WEBPACK_IMPORTED_MODULE_6__historical_news__["a" /* renderdateNews */](result);
-});
-
+const fetchAndRender = (date) => {
+  debugger
+    fetchBitCoinNewsbyDate(date).then(response => {
+    window.response = response;
+    let bitData = response.articles;
+    let words = arrayOfWords(bitData);
+    let counter = objectCounter(words);
+    console.log(counter);
+    console.log(words);
+    let result = __WEBPACK_IMPORTED_MODULE_2__util_news_functions_js__["a" /* topWords */](10, counter);
+    __WEBPACK_IMPORTED_MODULE_6__historical_news__["a" /* renderdateNews */](result);
+    });
+};
 
 const arrayOfWords = (docs) => {
   let result = [];
@@ -25378,23 +25398,27 @@ const topWords = (x, counter) => {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_d3__ = __webpack_require__(50);
+
 const renderdateNews = (data) => {
   window.newsdata = data;
   let width = 800,
   height = 800;
-  let svg = d3.select("#newsVis").append("svg")
+  let div = __WEBPACK_IMPORTED_MODULE_0_d3__["select"]("#newsVis");
+  div.selectAll("*").remove();
+  let svg = __WEBPACK_IMPORTED_MODULE_0_d3__["select"]("#newsVis").append("svg")
     .attr("width", width)
     .attr("height", height)
     .append("g")
     .attr("transform", "translate(0,0)");
     let max = data[0].count;
     let min = data[data.length-1].count;
-    let radiusScale = d3.scaleSqrt().domain([min, max]).range([10,100]);
+    let radiusScale = __WEBPACK_IMPORTED_MODULE_0_d3__["scaleSqrt"]().domain([min, max]).range([10,100]);
 
-    let simulation = d3.forceSimulation()
-    .force("x", d3.forceX(width/2).strength(0.05))
-    .force("y", d3.forceY(height/2).strength(0.05))
-    .force("collide", d3.forceCollide( function(d){
+    let simulation = __WEBPACK_IMPORTED_MODULE_0_d3__["forceSimulation"]()
+    .force("x", __WEBPACK_IMPORTED_MODULE_0_d3__["forceX"](width/2).strength(0.05))
+    .force("y", __WEBPACK_IMPORTED_MODULE_0_d3__["forceY"](height/2).strength(0.05))
+    .force("collide", __WEBPACK_IMPORTED_MODULE_0_d3__["forceCollide"]( function(d){
       return radiusScale(d.count);
     }));
 
