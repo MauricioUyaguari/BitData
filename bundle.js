@@ -2784,8 +2784,8 @@ const renderDate = (date) => {
   const month = monthNames[date.getMonth()];
   const year = date.getFullYear();
   const day = date.getDate();
-
-  return month + ", " + day + " " + year;
+  let string = `${month} ${day}, ${year}`;
+  return string;
 };
 
 
@@ -10258,16 +10258,33 @@ const renderBitChart = (data, range) => {
           .attr("dx", "-1.35em")
           .attr("z-index", "1");
 
-
-
       svg.append("rect")
           .attr("class", "overlay")
           .attr("width", width)
           .attr("height", height)
-          .on("mouseover", function() { focus.style("display", null); })
-          .on("mouseout", function() { focus.style("display", "none"); })
+          .on("mouseover", function() {
+            focus.style("display", null);
+            dateDisplay.style("display", null);
+          })
+          .on("mouseout", function() {
+            focus.style("display", "none");
+            dateDisplay.style("display","none");
+          })
           .on("mousemove", mousemove)
           .on("click", give);
+
+      let dateDisplay = svg.append("g")
+        .attr("class", "hi")
+        .style("display", "none");
+
+      dateDisplay.append("text")
+          .attr("x", 9)
+          .attr("color", "white")
+          .attr("stroke", "white")
+          .attr("dy", "1.000em")
+          .attr("dx", "0.300em")
+          .attr("z-index", "1");
+
 
       let bisectDate = __WEBPACK_IMPORTED_MODULE_0_d3__["bisector"](function(d) { return d.date; }).left;
           function mousemove() {
@@ -10278,6 +10295,7 @@ const renderBitChart = (data, range) => {
                 d = x0 - d0.date > d1.date - x0 ? d1 : d0;
             focus.attr("transform", "translate(" + x(d.date) + "," + y(d.close) + ")");
             focus.select("text").text( `${(__WEBPACK_IMPORTED_MODULE_1__util_functions__["d" /* formatToCurrency */](d.close))}`);
+            dateDisplay.select("text").text(`${__WEBPACK_IMPORTED_MODULE_1__util_functions__["i" /* renderNiceTimeDate */](d.date)[1]}`);
           }
 
           function give() {
