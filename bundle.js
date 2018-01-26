@@ -25390,6 +25390,7 @@ const fetchAndRender = (date) => {
     console.log(words);
     let result = __WEBPACK_IMPORTED_MODULE_2__util_news_functions_js__["a" /* topWords */](10, counter);
     renderdateNews(result);
+    renderCurrentBitCoinNews(response.articles);
     });
 };
 
@@ -25497,6 +25498,33 @@ const renderdateNews = (data) => {
       }
 };
 /* unused harmony export renderdateNews */
+
+
+
+
+
+const renderCurrentBitCoinNews = (data) => {
+  let newsUl = $('.historicalBitcoinNews');
+  let title, url, source, newsli, titlediv, timeFormat, imgUrl;
+  newsUl.empty();
+  data = data.slice(0,7);
+  data.forEach(newsResponse => {
+    title = newsResponse.title;
+    url = newsResponse.url;
+    source = newsResponse.source.name;
+    timeFormat = __WEBPACK_IMPORTED_MODULE_1__util_functions__["j" /* renderTimeHoursMinutes */](newsResponse.publishedAt);
+    imgUrl = newsResponse.urlToImage;
+    newsUl.append($("<li>").addClass("bitcoinNews-li"));
+    newsli = (newsUl.children().last());
+    newsli.append(`<img width="50px" height="50px" src="${imgUrl}"/>`);
+    newsli.append(`<div>
+                    <p> <a href="${url}" > ${title} </a> </p>
+                    <div> Source: ${source} </div>
+                    <div> Updated: ${timeFormat} </div>
+                  </div>`);
+  });
+};
+/* unused harmony export renderCurrentBitCoinNews */
 
 
 
