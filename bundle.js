@@ -25463,7 +25463,7 @@ const renderdateNews = (data) => {
     .force("x", __WEBPACK_IMPORTED_MODULE_0_d3__["forceX"](width/2).strength(0.05))
     .force("y", __WEBPACK_IMPORTED_MODULE_0_d3__["forceY"](height/2).strength(0.05))
     .force("collide", __WEBPACK_IMPORTED_MODULE_0_d3__["forceCollide"]( function(d){
-      return radiusScale(d.count);
+      return radiusScale(d.count) + 3;
     }));
 
     let circles = svg.selectAll(".words")
@@ -25475,6 +25475,8 @@ const renderdateNews = (data) => {
       return radiusScale(d.count);
     })
     .attr("fill", "steelblue")
+    .attr("stroke", "#fcc118")
+    .attr("stroke-width", "3px")
     .attr("cx", 100)
     .attr("cy", 100);
 
@@ -25483,9 +25485,9 @@ const renderdateNews = (data) => {
         .enter()
         .append('text')
         .text(d => d.word)
-        .attr('color', 'white')
-        .attr('stroke', 'white')
-        .attr('font-size', 15);
+        .attr('stroke', '0px')
+        .attr('fill', 'white')
+        .attr('font-size', 12);
 
   let nodes = simulation.nodes(data)
       .on('tick', ticked);
@@ -25653,7 +25655,7 @@ const renderAllDateNews = (data) => {
         .attr('stroke', '0px')
         .attr('fill', 'white')
 
-        .attr('font-size', 15);
+        .attr('font-size', 12);
 
   let nodes = simulation.nodes(data)
       .on('tick', ticked);
