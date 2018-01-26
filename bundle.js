@@ -25624,10 +25624,11 @@ const renderAllDateNews = (data) => {
     let radiusScale = __WEBPACK_IMPORTED_MODULE_0_d3__["scaleSqrt"]().domain([min, max]).range([20,60]);
 
     let simulation = __WEBPACK_IMPORTED_MODULE_0_d3__["forceSimulation"]()
+
     .force("x", __WEBPACK_IMPORTED_MODULE_0_d3__["forceX"](width/2).strength(0.05))
     .force("y", __WEBPACK_IMPORTED_MODULE_0_d3__["forceY"](height/2).strength(0.05))
     .force("collide", __WEBPACK_IMPORTED_MODULE_0_d3__["forceCollide"]( function(d){
-      return radiusScale(d.count);
+      return radiusScale(d.count) + 3;
     }));
 
     let circles = svg.selectAll(".words")
@@ -25639,16 +25640,19 @@ const renderAllDateNews = (data) => {
       return radiusScale(d.count);
     })
     .attr("fill", "steelblue")
-    .attr("cx", 100)
-    .attr("cy", 100);
+    .attr("stroke", "#fcc118")
+    .attr("stroke-width", "3px")
+    .attr("cx", "600")
+    .attr("cy", "100");
 
     let texts = svg.selectAll(null)
         .data(data)
         .enter()
         .append('text')
         .text(d => d.word)
-        .attr('color', 'white')
-        .attr('stroke', 'white')
+        .attr('stroke', '0px')
+        .attr('fill', 'white')
+
         .attr('font-size', 15);
 
   let nodes = simulation.nodes(data)
@@ -25657,14 +25661,14 @@ const renderAllDateNews = (data) => {
       function ticked() {
         circles
           .attr("cx", function(d) {
-            return d.x;
+            return d.x ;
           })
           .attr("cy", function(d){
-            return d.y;
+            return d.y ;
           });
 
       texts.attr('x', (d) => {
-          return d.x - 5;
+          return d.x - 12;
       })
       .attr('y', (d) => {
           return d.y;
