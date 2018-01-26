@@ -2628,7 +2628,9 @@ const deleteShortWords = (array) => {
   'a', 'an', 'by', 'to', 'you', 'me', 'he', 'she',
    'they', 'we', 'how', 'it', 'i', 'are', 'to', 'for', 'of','that','from', 'this', 'from',
    'with', 'just', 'your', 'about', 'like', 'read', 'some', 'will', 'which', 'have', 'when',
-   'after', 'down', 'been', 'once', 'come'];
+   'after', 'down', 'been', 'once', 'come', 'what', 'time', 'things','@thomas👉', 'page.',
+   'hvper.com'
+ ];
   array.forEach(word => {
     if(word.length <= 3 || word[0] === "$" || shortwords.includes(word) || !isNaN(parseInt(word)) ){
       return;
@@ -25304,7 +25306,6 @@ const fetchBitCoinHeadLines = () => {
 
 
 const topWords = (x, counter) => {
-  x = 10;
   let top = [], values;
   let sorted = counter.sort( function(a,b){
     return b.count - a.count;
@@ -25317,7 +25318,7 @@ const topWords = (x, counter) => {
   top.sort(function(a,b) { return b - a;});
   top = top.filter( __WEBPACK_IMPORTED_MODULE_0__functions__["h" /* onlyUnique */]);
 
-  top = top.slice(0,12);
+  top = top.slice(0,x);
 
   let result = [];
 
@@ -25365,11 +25366,27 @@ const googleDateUrl = (date) => {
           `to=${todate}&`  +
           'language=en&' +
           'sortBy=popularity&' +
-          'pageSize=100&'+
+          'pageSize=50&'+
           'apiKey=5262f72651ed4306978a474c55d08c83';
   return url;
 };
 
+
+const financialTimesUrl = (date) => {
+  date = new Date (date);
+  let todate = __WEBPACK_IMPORTED_MODULE_1__util_functions__["e" /* googleDate */](date);
+
+  let url = 'https://newsapi.org/v2/everything?' +
+          'sources=financial-times&' +
+          `from=${todate}&` +
+          `to=${todate}&`  +
+          'language=en&' +
+          'sortBy=popularity&' +
+          'pageSize=50&'+
+          'apiKey=5262f72651ed4306978a474c55d08c83';
+  return url;
+
+};
 
   const fetchBitCoinNewsbyDate = (date) => {
       let url = googleDateUrl(date);
@@ -25388,7 +25405,8 @@ const fetchAndRender = (date) => {
     let counter = objectCounter(words);
     console.log(counter);
     console.log(words);
-    let result = __WEBPACK_IMPORTED_MODULE_2__util_news_functions_js__["a" /* topWords */](10, counter);
+    let result = __WEBPACK_IMPORTED_MODULE_2__util_news_functions_js__["a" /* topWords */](20, counter);
+    result = (result.length > 100) ? result.slice(0,100) : result;
     renderdateNews(result);
     renderCurrentBitCoinNews(response.articles);
     });
@@ -25473,7 +25491,8 @@ const renderdateNews = (data) => {
         .enter()
         .append('text')
         .text(d => d.word)
-        .attr('color', 'black')
+        .attr('color', 'white')
+        .attr('stroke', 'white')
         .attr('font-size', 15);
 
   let nodes = simulation.nodes(data)
@@ -25507,7 +25526,7 @@ const renderCurrentBitCoinNews = (data) => {
   let newsUl = $('.historicalBitcoinNews');
   let title, url, source, newsli, titlediv, timeFormat, imgUrl;
   newsUl.empty();
-  data = data.slice(0,7);
+  data = data.slice(0,10);
   data.forEach(newsResponse => {
     title = newsResponse.title;
     url = newsResponse.url;
