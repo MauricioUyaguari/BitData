@@ -194,3 +194,10 @@ padding: 10px;
 body {
   background: black;
 }
+
+
+
+
+.historical-news-main {
+  display: flex;
+}

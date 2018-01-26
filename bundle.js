@@ -10154,7 +10154,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__lastMonth__ = __webpack_require__(465);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__currentData__ = __webpack_require__(466);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__currentNews__ = __webpack_require__(467);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__historical_news__ = __webpack_require__(469);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__bitcoin_historical_news__ = __webpack_require__(470);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__all_historical_news__ = __webpack_require__(471);
 var Papa = __webpack_require__(174);
 
 
@@ -10306,8 +10307,8 @@ const renderBitChart = (data, range) => {
                 d0 = data[i - 1],
                 d1 = data[i],
                 d = x0 - d0.date > d1.date - x0 ? d1 : d0;
-            __WEBPACK_IMPORTED_MODULE_6__historical_news__["a" /* displayDateInformation */](d);
-
+            __WEBPACK_IMPORTED_MODULE_6__bitcoin_historical_news__["a" /* displayDateInformation */](d);
+            __WEBPACK_IMPORTED_MODULE_7__all_historical_news__["a" /* displayHistoricalFinancialNews */](d);
           }
 
 
@@ -25332,12 +25333,55 @@ const topWords = (x, counter) => {
   // return result;
 
 };
-/* harmony export (immutable) */ __webpack_exports__["a"] = topWords;
+/* harmony export (immutable) */ __webpack_exports__["c"] = topWords;
 
+
+
+
+const arrayOfWords = (docs) => {
+  let result = [];
+  let timesHeadlines = [];
+  let headline, title, headlineString;
+  docs.forEach( info => {
+    headlineString = (info.description + info.title).split(" ");
+    headlineString = headlineString.filter(__WEBPACK_IMPORTED_MODULE_0__functions__["h" /* onlyUnique */]);
+    headlineString = __WEBPACK_IMPORTED_MODULE_0__functions__["f" /* lowerCase */](headlineString);
+    headlineString = __WEBPACK_IMPORTED_MODULE_0__functions__["c" /* deleteShortWords */](headlineString);
+    result = result.concat(headlineString);
+  });
+  return result;
+};
+/* harmony export (immutable) */ __webpack_exports__["a"] = arrayOfWords;
+
+
+const objectCounter = (arrayWords) => {
+  let uniqueWords = arrayWords.filter(__WEBPACK_IMPORTED_MODULE_0__functions__["h" /* onlyUnique */]);
+  let result = [];
+  let temp ;
+  let count;
+  uniqueWords.forEach(word => {
+    temp = {};
+    count = countInArray(arrayWords, word);
+    temp["word"] = word;
+    temp["count"] = count;
+    result.push(temp);
+  });
+  return result;
+};
+/* harmony export (immutable) */ __webpack_exports__["b"] = objectCounter;
+
+
+
+
+const countInArray = (array, what) => {
+  return array.filter(item => item == what).length;
+
+};
 
 
 /***/ }),
-/* 469 */
+/* 469 */,
+/* 470 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -25389,61 +25433,21 @@ const fetchAndRender = (date) => {
     fetchBitCoinNewsbyDate(date).then(response => {
     window.response = response;
     let bitData = response.articles;
-    let words = arrayOfWords(bitData);
-    let counter = objectCounter(words);
+    let words = __WEBPACK_IMPORTED_MODULE_2__util_news_functions_js__["a" /* arrayOfWords */](bitData);
+    let counter = __WEBPACK_IMPORTED_MODULE_2__util_news_functions_js__["b" /* objectCounter */](words);
     console.log(counter);
     console.log(words);
-    let result = __WEBPACK_IMPORTED_MODULE_2__util_news_functions_js__["a" /* topWords */](20, counter);
+    let result = __WEBPACK_IMPORTED_MODULE_2__util_news_functions_js__["c" /* topWords */](20, counter);
     result = (result.length > 50) ? result.slice(0,50) : result;
     renderdateNews(result);
     renderCurrentBitCoinNews(response.articles);
     });
 };
 
-const arrayOfWords = (docs) => {
-  let result = [];
-  let timesHeadlines = [];
-  let headline, title, headlineString;
-  docs.forEach( info => {
-    headlineString = (info.description + info.title).split(" ");
-    headlineString = headlineString.filter(__WEBPACK_IMPORTED_MODULE_1__util_functions__["h" /* onlyUnique */]);
-    headlineString = __WEBPACK_IMPORTED_MODULE_1__util_functions__["f" /* lowerCase */](headlineString);
-    headlineString = __WEBPACK_IMPORTED_MODULE_1__util_functions__["c" /* deleteShortWords */](headlineString);
-    result = result.concat(headlineString);
-  });
-  return result;
-};
-
-
-
-
-const objectCounter = (arrayWords) => {
-  let uniqueWords = arrayWords.filter(__WEBPACK_IMPORTED_MODULE_1__util_functions__["h" /* onlyUnique */]);
-  let result = [];
-  let temp ;
-  let count;
-  uniqueWords.forEach(word => {
-    temp = {};
-    count = countInArray(arrayWords, word);
-    temp["word"] = word;
-    temp["count"] = count;
-    result.push(temp);
-  });
-  return result;
-};
-
-
-const countInArray = (array, what) => {
-  return array.filter(item => item == what).length;
-
-};
-
-
-
 const renderdateNews = (data) => {
   window.newsdata = data;
-  let width = 800,
-  height = 800;
+  let width = 600,
+  height = 700;
   let div = __WEBPACK_IMPORTED_MODULE_0_d3__["select"]("#newsVis");
   div.selectAll("*").remove();
   let svg = __WEBPACK_IMPORTED_MODULE_0_d3__["select"]("#newsVis").append("svg")
@@ -25535,14 +25539,24 @@ const renderCurrentBitCoinNews = (data) => {
 
 
 
+/***/ }),
+/* 471 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_d3__ = __webpack_require__(50);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_functions__ = __webpack_require__(49);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_news_functions_js__ = __webpack_require__(468);
 
 
-// financial
+
+
+
 
 const displayHistoricalFinancialNews = (mouseDate) => {
-  fetchAndRender(mouseDate.date);
+  fetchAndRenderAll(mouseDate.date);
 };
-/* unused harmony export displayHistoricalFinancialNews */
+/* harmony export (immutable) */ __webpack_exports__["a"] = displayHistoricalFinancialNews;
 
 
 
@@ -25562,6 +25576,12 @@ const financialTimesUrl = (date) => {
 
 };
 
+
+
+const nyTimesUrl = (date) => {
+
+
+};
 const fetchHistoricalFinancialNews = (date) => {
     let url = financialTimesUrl(date);
     return $.ajax({
@@ -25569,6 +25589,117 @@ const fetchHistoricalFinancialNews = (date) => {
     method: 'GET',
     });
 };
+
+
+const fetchAndRenderAll = (date) => {
+    fetchHistoricalFinancialNews(date).then(response => {
+    window.response = response;
+    let bitData = response.articles;
+    let words = __WEBPACK_IMPORTED_MODULE_2__util_news_functions_js__["a" /* arrayOfWords */](bitData);
+    let counter = __WEBPACK_IMPORTED_MODULE_2__util_news_functions_js__["b" /* objectCounter */](words);
+    console.log(counter);
+    console.log(words);
+    let result = __WEBPACK_IMPORTED_MODULE_2__util_news_functions_js__["c" /* topWords */](20, counter);
+    result = (result.length > 50) ? result.slice(0,50) : result;
+    renderAllDateNews(result);
+    renderAllHistoricalList(response.articles);
+    });
+};
+
+
+
+const renderAllDateNews = (data) => {
+  window.newsdata = data;
+  let width = 600,
+  height = 700;
+  let div = __WEBPACK_IMPORTED_MODULE_0_d3__["select"]("#allNewsVis");
+  div.selectAll("*").remove();
+  let svg = __WEBPACK_IMPORTED_MODULE_0_d3__["select"]("#allNewsVis").append("svg")
+    .attr("width", width)
+    .attr("height", height)
+    .append("g")
+    .attr("transform", "translate(0,0)");
+    let max = data[0].count;
+    let min = data[data.length-1].count;
+    let radiusScale = __WEBPACK_IMPORTED_MODULE_0_d3__["scaleSqrt"]().domain([min, max]).range([20,60]);
+
+    let simulation = __WEBPACK_IMPORTED_MODULE_0_d3__["forceSimulation"]()
+    .force("x", __WEBPACK_IMPORTED_MODULE_0_d3__["forceX"](width/2).strength(0.05))
+    .force("y", __WEBPACK_IMPORTED_MODULE_0_d3__["forceY"](height/2).strength(0.05))
+    .force("collide", __WEBPACK_IMPORTED_MODULE_0_d3__["forceCollide"]( function(d){
+      return radiusScale(d.count);
+    }));
+
+    let circles = svg.selectAll(".words")
+    .data(data)
+    .enter()
+    .append('circle')
+    .attr("class", "historical")
+    .attr("r", function(d){
+      return radiusScale(d.count);
+    })
+    .attr("fill", "steelblue")
+    .attr("cx", 100)
+    .attr("cy", 100);
+
+    let texts = svg.selectAll(null)
+        .data(data)
+        .enter()
+        .append('text')
+        .text(d => d.word)
+        .attr('color', 'white')
+        .attr('stroke', 'white')
+        .attr('font-size', 15);
+
+  let nodes = simulation.nodes(data)
+      .on('tick', ticked);
+
+      function ticked() {
+        circles
+          .attr("cx", function(d) {
+            return d.x;
+          })
+          .attr("cy", function(d){
+            return d.y;
+          });
+
+      texts.attr('x', (d) => {
+          return d.x - 5;
+      })
+      .attr('y', (d) => {
+          return d.y;
+      });
+
+      }
+};
+/* unused harmony export renderAllDateNews */
+
+
+
+
+const renderAllHistoricalList = (data) => {
+  let newsUl = $('.historicalAllNews');
+  let title, url, source, newsli, titlediv, timeFormat, imgUrl;
+  newsUl.empty();
+  data = data.slice(0,10);
+  data.forEach(newsResponse => {
+    title = newsResponse.title;
+    url = newsResponse.url;
+    source = newsResponse.source.name;
+    timeFormat = __WEBPACK_IMPORTED_MODULE_1__util_functions__["j" /* renderTimeHoursMinutes */](newsResponse.publishedAt);
+    imgUrl = newsResponse.urlToImage;
+    newsUl.append($("<li>").addClass("bitcoinNews-li"));
+    newsli = (newsUl.children().last());
+    newsli.append(`<img width="50px" height="50px" src="${imgUrl}"/>`);
+    newsli.append(`<div>
+                    <p> <a href="${url}" > ${title} </a> </p>
+                    <div> Source: ${source} </div>
+                    <div> Updated: ${timeFormat} </div>
+                  </div>`);
+  });
+};
+/* unused harmony export renderAllHistoricalList */
+
 
 
 /***/ })
