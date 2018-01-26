@@ -10304,7 +10304,8 @@ const renderBitChart = (data, range) => {
                 d0 = data[i - 1],
                 d1 = data[i],
                 d = x0 - d0.date > d1.date - x0 ? d1 : d0;
-            displayDateInformation(d);
+            __WEBPACK_IMPORTED_MODULE_6__historical_news__["a" /* displayDateInformation */](d);
+
           }
 
 
@@ -10313,9 +10314,6 @@ const renderBitChart = (data, range) => {
 
 
 
-const displayDateInformation = (mouseDate) => {
-  fetchAndRender(mouseDate.date);
-};
 
 // displays all current Bit Coin Information
 __WEBPACK_IMPORTED_MODULE_4__currentData__["a" /* renderCurrent */]();
@@ -10339,90 +10337,6 @@ setInterval(function(a) {
     console.log("about to render all Current News");
     __WEBPACK_IMPORTED_MODULE_5__currentNews__["b" /* renderBitCoinHeadLines */]();
   }, 600000);
-
-
-
-
-
-
-
-window.googleDate = __WEBPACK_IMPORTED_MODULE_1__util_functions__["e" /* googleDate */];
-
-const googleDateUrl = (date) => {
-  date = new Date (date);
-  let todate = __WEBPACK_IMPORTED_MODULE_1__util_functions__["e" /* googleDate */](date);
-
-  let url = 'https://newsapi.org/v2/everything?' +
-          'q=bitcoin&' +
-          `from=${todate}&` +
-          `to=${todate}&`  +
-          'language=en&' +
-          'sortBy=popularity&' +
-          'pageSize=100&'+
-          'apiKey=5262f72651ed4306978a474c55d08c83';
-  return url;
-};
-
-
-  const fetchBitCoinNewsbyDate = (date) => {
-      let url = googleDateUrl(date);
-      window.url = url;
-      return $.ajax({
-      url: url,
-      method: 'GET',
-      });
-  };
-
-const fetchAndRender = (date) => {
-    fetchBitCoinNewsbyDate(date).then(response => {
-    window.response = response;
-    let bitData = response.articles;
-    let words = arrayOfWords(bitData);
-    let counter = objectCounter(words);
-    console.log(counter);
-    console.log(words);
-    let result = __WEBPACK_IMPORTED_MODULE_2__util_news_functions_js__["a" /* topWords */](10, counter);
-    __WEBPACK_IMPORTED_MODULE_6__historical_news__["a" /* renderdateNews */](result);
-    });
-};
-
-const arrayOfWords = (docs) => {
-  let result = [];
-  let timesHeadlines = [];
-  let headline, title, headlineString;
-  docs.forEach( info => {
-    headlineString = (info.description + info.title).split(" ");
-    headlineString = headlineString.filter(__WEBPACK_IMPORTED_MODULE_1__util_functions__["h" /* onlyUnique */]);
-    headlineString = __WEBPACK_IMPORTED_MODULE_1__util_functions__["f" /* lowerCase */](headlineString);
-    headlineString = __WEBPACK_IMPORTED_MODULE_1__util_functions__["c" /* deleteShortWords */](headlineString);
-    result = result.concat(headlineString);
-  });
-  return result;
-};
-
-
-
-
-const objectCounter = (arrayWords) => {
-  let uniqueWords = arrayWords.filter(__WEBPACK_IMPORTED_MODULE_1__util_functions__["h" /* onlyUnique */]);
-  let result = [];
-  let temp ;
-  let count;
-  uniqueWords.forEach(word => {
-    temp = {};
-    count = countInArray(arrayWords, word);
-    temp["word"] = word;
-    temp["count"] = count;
-    result.push(temp);
-  });
-  return result;
-};
-
-
-const countInArray = (array, what) => {
-  return array.filter(item => item == what).length;
-
-};
 
 
 /***/ }),
@@ -25425,6 +25339,99 @@ const topWords = (x, counter) => {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_d3__ = __webpack_require__(50);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_functions__ = __webpack_require__(49);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_news_functions_js__ = __webpack_require__(468);
+
+
+
+
+
+const displayDateInformation = (mouseDate) => {
+  fetchAndRender(mouseDate.date);
+};
+/* harmony export (immutable) */ __webpack_exports__["a"] = displayDateInformation;
+
+
+
+
+
+const googleDateUrl = (date) => {
+  date = new Date (date);
+  let todate = __WEBPACK_IMPORTED_MODULE_1__util_functions__["e" /* googleDate */](date);
+
+  let url = 'https://newsapi.org/v2/everything?' +
+          'q=bitcoin&' +
+          `from=${todate}&` +
+          `to=${todate}&`  +
+          'language=en&' +
+          'sortBy=popularity&' +
+          'pageSize=100&'+
+          'apiKey=5262f72651ed4306978a474c55d08c83';
+  return url;
+};
+
+
+  const fetchBitCoinNewsbyDate = (date) => {
+      let url = googleDateUrl(date);
+      window.url = url;
+      return $.ajax({
+      url: url,
+      method: 'GET',
+      });
+  };
+
+const fetchAndRender = (date) => {
+    fetchBitCoinNewsbyDate(date).then(response => {
+    window.response = response;
+    let bitData = response.articles;
+    let words = arrayOfWords(bitData);
+    let counter = objectCounter(words);
+    console.log(counter);
+    console.log(words);
+    let result = __WEBPACK_IMPORTED_MODULE_2__util_news_functions_js__["a" /* topWords */](10, counter);
+    renderdateNews(result);
+    });
+};
+
+const arrayOfWords = (docs) => {
+  let result = [];
+  let timesHeadlines = [];
+  let headline, title, headlineString;
+  docs.forEach( info => {
+    headlineString = (info.description + info.title).split(" ");
+    headlineString = headlineString.filter(__WEBPACK_IMPORTED_MODULE_1__util_functions__["h" /* onlyUnique */]);
+    headlineString = __WEBPACK_IMPORTED_MODULE_1__util_functions__["f" /* lowerCase */](headlineString);
+    headlineString = __WEBPACK_IMPORTED_MODULE_1__util_functions__["c" /* deleteShortWords */](headlineString);
+    result = result.concat(headlineString);
+  });
+  return result;
+};
+
+
+
+
+const objectCounter = (arrayWords) => {
+  let uniqueWords = arrayWords.filter(__WEBPACK_IMPORTED_MODULE_1__util_functions__["h" /* onlyUnique */]);
+  let result = [];
+  let temp ;
+  let count;
+  uniqueWords.forEach(word => {
+    temp = {};
+    count = countInArray(arrayWords, word);
+    temp["word"] = word;
+    temp["count"] = count;
+    result.push(temp);
+  });
+  return result;
+};
+
+
+const countInArray = (array, what) => {
+  return array.filter(item => item == what).length;
+
+};
+
+
 
 const renderdateNews = (data) => {
   window.newsdata = data;
@@ -25489,7 +25496,7 @@ const renderdateNews = (data) => {
 
       }
 };
-/* harmony export (immutable) */ __webpack_exports__["a"] = renderdateNews;
+/* unused harmony export renderdateNews */
 
 
 
