@@ -25311,23 +25311,25 @@ const topWords = (x, counter) => {
     return b.count - a.count;
   });
 
-  counter.forEach(el =>{
-    top.push(el.count);
-  });
 
-  top.sort(function(a,b) { return b - a;});
-  top = top.filter( __WEBPACK_IMPORTED_MODULE_0__functions__["h" /* onlyUnique */]);
-
-  top = top.slice(0,x);
-
-  let result = [];
-
-  counter.forEach(data => {
-    if(top.includes(data.count)){
-      result.push(data);
-    }
-  });
-  return result;
+  return sorted;
+  // counter.forEach(el =>{
+  //   top.push(el.count);
+  // });
+  //
+  // top.sort(function(a,b) { return b - a;});
+  // top = top.filter( UtilFunction.onlyUnique);
+  //
+  // top = top.slice(0,x);
+  //
+  // let result = [];
+  //
+  // counter.forEach(data => {
+  //   if(top.includes(data.count)){
+  //     result.push(data);
+  //   }
+  // });
+  // return result;
 
 };
 /* harmony export (immutable) */ __webpack_exports__["a"] = topWords;
@@ -25372,21 +25374,7 @@ const googleDateUrl = (date) => {
 };
 
 
-const financialTimesUrl = (date) => {
-  date = new Date (date);
-  let todate = __WEBPACK_IMPORTED_MODULE_1__util_functions__["e" /* googleDate */](date);
 
-  let url = 'https://newsapi.org/v2/everything?' +
-          'sources=financial-times&' +
-          `from=${todate}&` +
-          `to=${todate}&`  +
-          'language=en&' +
-          'sortBy=popularity&' +
-          'pageSize=50&'+
-          'apiKey=5262f72651ed4306978a474c55d08c83';
-  return url;
-
-};
 
   const fetchBitCoinNewsbyDate = (date) => {
       let url = googleDateUrl(date);
@@ -25406,7 +25394,7 @@ const fetchAndRender = (date) => {
     console.log(counter);
     console.log(words);
     let result = __WEBPACK_IMPORTED_MODULE_2__util_news_functions_js__["a" /* topWords */](20, counter);
-    result = (result.length > 100) ? result.slice(0,100) : result;
+    result = (result.length > 50) ? result.slice(0,50) : result;
     renderdateNews(result);
     renderCurrentBitCoinNews(response.articles);
     });
@@ -25465,7 +25453,7 @@ const renderdateNews = (data) => {
     .attr("transform", "translate(0,0)");
     let max = data[0].count;
     let min = data[data.length-1].count;
-    let radiusScale = __WEBPACK_IMPORTED_MODULE_0_d3__["scaleSqrt"]().domain([min, max]).range([10,100]);
+    let radiusScale = __WEBPACK_IMPORTED_MODULE_0_d3__["scaleSqrt"]().domain([min, max]).range([20,60]);
 
     let simulation = __WEBPACK_IMPORTED_MODULE_0_d3__["forceSimulation"]()
     .force("x", __WEBPACK_IMPORTED_MODULE_0_d3__["forceX"](width/2).strength(0.05))
@@ -25545,6 +25533,42 @@ const renderCurrentBitCoinNews = (data) => {
 };
 /* unused harmony export renderCurrentBitCoinNews */
 
+
+
+
+
+// financial
+
+const displayHistoricalFinancialNews = (mouseDate) => {
+  fetchAndRender(mouseDate.date);
+};
+/* unused harmony export displayHistoricalFinancialNews */
+
+
+
+const financialTimesUrl = (date) => {
+  date = new Date (date);
+  let todate = __WEBPACK_IMPORTED_MODULE_1__util_functions__["e" /* googleDate */](date);
+
+  let url = 'https://newsapi.org/v2/everything?' +
+          'sources=financial-times&' +
+          `from=${todate}&` +
+          `to=${todate}&`  +
+          'language=en&' +
+          'sortBy=popularity&' +
+          'pageSize=50&'+
+          'apiKey=5262f72651ed4306978a474c55d08c83';
+  return url;
+
+};
+
+const fetchHistoricalFinancialNews = (date) => {
+    let url = financialTimesUrl(date);
+    return $.ajax({
+    url: url,
+    method: 'GET',
+    });
+};
 
 
 /***/ })
