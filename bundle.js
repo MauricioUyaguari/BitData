@@ -25411,7 +25411,7 @@ const googleDateUrl = (date) => {
           `from=${todate}&` +
           `to=${todate}&`  +
           'language=en&' +
-          'sortBy=popularity&' +
+          'sortBy=relevancy,popularity&' +
           'pageSize=50&'+
           'apiKey=5262f72651ed4306978a474c55d08c83';
   return url;
@@ -25445,11 +25445,15 @@ const fetchAndRender = (date) => {
 };
 
 const renderdateNews = (data) => {
+  let div = __WEBPACK_IMPORTED_MODULE_0_d3__["select"]("#newsVis");
+  div.selectAll("*").remove();
+  if(data.length == 0){
+    console.log("no bitcoin data");
+    return null;
+  }
   window.newsdata = data;
   let width = 600,
   height = 700;
-  let div = __WEBPACK_IMPORTED_MODULE_0_d3__["select"]("#newsVis");
-  div.selectAll("*").remove();
   let svg = __WEBPACK_IMPORTED_MODULE_0_d3__["select"]("#newsVis").append("svg")
     .attr("width", width)
     .attr("height", height)
@@ -25556,6 +25560,8 @@ const renderCurrentBitCoinNews = (data) => {
 
 
 const displayHistoricalFinancialNews = (mouseDate) => {
+  let newsUl = $('.historicalAllNews');
+  newsUl.empty();
   fetchAndRenderAll(mouseDate.date);
 };
 /* harmony export (immutable) */ __webpack_exports__["a"] = displayHistoricalFinancialNews;
@@ -25574,6 +25580,7 @@ const financialTimesUrl = (date) => {
           'sortBy=popularity&' +
           'pageSize=50&'+
           'apiKey=5262f72651ed4306978a474c55d08c83';
+      window.url = url;
   return url;
 
 };
@@ -25581,9 +25588,21 @@ const financialTimesUrl = (date) => {
 
 
 const nyTimesUrl = (date) => {
+  date = new Date (date);
+  let todate = __WEBPACK_IMPORTED_MODULE_1__util_functions__["e" /* googleDate */](date);
 
-
+  let url = 'https://newsapi.org/v2/everything?' +
+          'sources=the-new-york-times&' +
+          `from=${todate}&` +
+          `to=${todate}&`  +
+          'language=en&' +
+          'sortBy=popularity&' +
+          'pageSize=50&'+
+          'apiKey=5262f72651ed4306978a474c55d08c83';
+    window.nytime = url;
+  return url;
 };
+
 const fetchHistoricalFinancialNews = (date) => {
     let url = financialTimesUrl(date);
     return $.ajax({
@@ -25595,7 +25614,17 @@ const fetchHistoricalFinancialNews = (date) => {
 
 const fetchAndRenderAll = (date) => {
     fetchHistoricalFinancialNews(date).then(response => {
-    window.response = response;
+    if( response.totalResults < 10 ){
+      return null;
+    }
+    responseToShow(response);
+    });
+};
+
+
+
+
+  const responseToShow = (response) => {
     let bitData = response.articles;
     let words = __WEBPACK_IMPORTED_MODULE_2__util_news_functions_js__["a" /* arrayOfWords */](bitData);
     let counter = __WEBPACK_IMPORTED_MODULE_2__util_news_functions_js__["b" /* objectCounter */](words);
@@ -25605,17 +25634,21 @@ const fetchAndRenderAll = (date) => {
     result = (result.length > 50) ? result.slice(0,50) : result;
     renderAllDateNews(result);
     renderAllHistoricalList(response.articles);
-    });
-};
+  };
+
 
 
 
 const renderAllDateNews = (data) => {
-  window.newsdata = data;
-  let width = 600,
-  height = 700;
   let div = __WEBPACK_IMPORTED_MODULE_0_d3__["select"]("#allNewsVis");
   div.selectAll("*").remove();
+  if(data.length == 0){
+    console.log("display new york times");
+    return null;
+  }
+  let width = 600,
+  height = 700;
+
   let svg = __WEBPACK_IMPORTED_MODULE_0_d3__["select"]("#allNewsVis").append("svg")
     .attr("width", width)
     .attr("height", height)
