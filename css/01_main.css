@@ -8,6 +8,11 @@
 }
 
 
+body {
+  background: #293a46;
+  /* color: #cfd2da; */
+}
+
 .h1 {
   display: flex;
 align-items: center;
@@ -19,6 +24,27 @@ padding: 10px;
   text-align: center
 }
 
+
+.overview {
+    margin-bottom: 0.5rem;
+    font-family: inherit;
+    font-weight: 300;
+    line-height: 1.1;
+    color: white;
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 20px;
+    border-right-style: initial;
+    border-bottom-style: initial;
+    border-left-style: initial;
+    border-right-color: initial;
+    border-bottom-color: initial;
+    border-left-color: initial;
+    border-width: 1px 0px 0px;
+    border-image: initial;
+    border-bottom: 1px solid rgb(67, 72, 87);
+    padding-bottom: 10px;
+}
 
 
 .bitcoin-img {
@@ -55,6 +81,7 @@ padding: 10px;
   color: white;
   flex-direction: column;
   flex: 1;
+  padding: 5px;
 }
 
 .nowTime, .bitCoinPrice,  .bitCoinTime{
@@ -68,7 +95,7 @@ padding: 10px;
   border-radius: 40px;
   /* border-width: 25px; */
   color: #e4e461d4;
-  background: #4db797;
+  background: #293a46;
   box-shadow: none;
   text-align: center;
   margin: 10px;
@@ -97,34 +124,51 @@ padding: 10px;
 }
 
 
+/*  Current News  */
 
-.allcurrentNews {
-    color: white;
-    list-style: none;
-    text-decoration: none;
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-}
-.allcurrentNews {
-  padding: 5px;
-}
+
 
 .bitCoinNews-div, .allNews-div {
   color: white;
+  padding: 5px;
+}
+.bitCoinNews , .allBusinessNews{
+  margin-bottom: 0.5rem;
+  font-family: inherit;
+  font-weight: 300;
+  line-height: 1.1;
+  color: #367588;
+  text-align: center;
+  font-size: 1.5rem;
+  text-decoration: underline;
+
 }
 
-
 .bitcoinNews-li, .currentNews-li {
-  color: white;
+  color: #367588;
   list-style: none;
   font-size: 12px;
   display: flex;
   align-items: center;
+  padding: 5px;
 }
 
+.bitcoinNews-info-div , .currentNews-info-div {
+  padding-left: 10px;
+}
 
+.bitcoinNews-info-div * {
+  padding-bottom: 2.5px;
+}
+.currentNews-info-div * {
+    padding-bottom: 2.5px;
+}
 
+.bitcoinNews-info-div a, .currentNews-info-div  a  {
+  color: #ffd700;
+}
+
+  /* color: #e6ae0b; */
 /* bitcoin major chart */
 
 #bitcoin-d3{
@@ -134,7 +178,6 @@ padding: 10px;
 
 #main {
   display: flex;
-  background: black;
   flex-direction: column;
 }
 .chart-label {
@@ -191,9 +234,7 @@ padding: 10px;
 
 /* historical news */
 
-body {
-  background: black;
-}
+
 
 
 
