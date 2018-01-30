@@ -25565,6 +25565,7 @@ const renderdateNews = (data) => {
 
 
 const renderCurrentBitCoinNews = (data) => {
+  debugger
   let newsUl = $('.historicalBitcoinNews');
   let title, url, source, newsli, titlediv, timeFormat, imgUrl;
   newsUl.empty();
