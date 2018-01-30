@@ -81,19 +81,25 @@ padding: 10px;
   color: white;
   flex-direction: column;
   flex: 1;
-  padding: 5px;
+  padding-left: 20px;
 }
 
-.nowTime, .bitCoinPrice,  .bitCoinTime{
+.allcurrent-cont
+{
+
+}
+.nowTime-cont {
+  display: flex;
+    align-items: center;
+}
+
+.nowTime-div, .bitCoinPrice,  .bitCoinTime{
   letter-spacing: 0.05em;
-  /* font-size: 80px; */
   padding: 5px 0;
   font-family: 'Share Tech Mono', monospace;
   color: #daf6ff;
   text-shadow: 0 0 20px #0aafe6, 0 0 20px rgba(10, 175, 230, 0);
-  /* border: red; */
   border-radius: 40px;
-  /* border-width: 25px; */
   color: #e4e461d4;
   background: #293a46;
   box-shadow: none;
@@ -102,6 +108,7 @@ padding: 10px;
   padding: 5px;
 
 }
+
 
 
 .current-add-info {

@@ -1165,6 +1165,24 @@ const lowerCase = (array) => {
 
 
 
+
+
+
+
+const subsets = (arr) => {
+  if (arr.length === 0){
+    return [[]];
+  }
+
+    let first = arr[0];
+    let presub = arr.slice(1);
+    let postSub = subsets(presub);
+
+    return postSub.concat([first]);
+
+}
+;
+
 function getRandomColor() {
   var letters = '0123456789ABCDEF';
   var color = '#';
