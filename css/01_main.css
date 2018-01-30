@@ -84,10 +84,7 @@ padding: 10px;
   padding-left: 20px;
 }
 
-.allcurrent-cont
-{
 
-}
 .nowTime-cont {
   display: flex;
     align-items: center;
@@ -100,7 +97,7 @@ padding: 10px;
   color: #daf6ff;
   text-shadow: 0 0 20px #0aafe6, 0 0 20px rgba(10, 175, 230, 0);
   border-radius: 40px;
-  color: #e4e461d4;
+  color: #ffd700;
   background: #293a46;
   box-shadow: none;
   text-align: center;
@@ -175,6 +172,15 @@ padding: 10px;
   color: #ffd700;
 }
 
+.nowTime-div * {
+  padding: 5px;
+}
+
+
+.bitCoinPrice-div, .bitCoinTimeDate, .nowTime-div {
+  display: flex;
+  align-items: center;
+}
   /* color: #e6ae0b; */
 /* bitcoin major chart */
 
