@@ -10408,6 +10408,7 @@ const renderBitChart = (data, range) => {
                 d0 = data[i - 1],
                 d1 = data[i],
                 d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+            prepare(d);
             __WEBPACK_IMPORTED_MODULE_6__bitcoin_historical_news__["a" /* displayDateInformation */](d);
             __WEBPACK_IMPORTED_MODULE_7__all_historical_news__["a" /* displayHistoricalFinancialNews */](d);
           }
@@ -10417,6 +10418,22 @@ const renderBitChart = (data, range) => {
   };
 
 
+
+const prepare = (data) => {
+  let date = new Date(data.date);
+  let label = $('.historical-instructions');
+  label.empty();
+  let newlabel = $('.clicked-date');
+  newlabel.empty();
+  date = __WEBPACK_IMPORTED_MODULE_1__util_functions__["i" /* renderNiceTimeDate */](date);
+  date = date[1];
+  newlabel.append(`<div>
+    <h2 class="labelfordate"> Historical News on ${date} </h2>
+    </div>
+    `);
+
+
+};
 
 
 // displays all current Bit Coin Information
@@ -10432,7 +10449,7 @@ __WEBPACK_IMPORTED_MODULE_5__currentNews__["a" /* renderAllCurrentHeadlines */](
 setInterval(function(a) {
     console.log("about to render all Current News");
     __WEBPACK_IMPORTED_MODULE_5__currentNews__["a" /* renderAllCurrentHeadlines */]();
-  }, 600000);
+  }, 60000);
 
 
 //
@@ -10440,7 +10457,7 @@ __WEBPACK_IMPORTED_MODULE_5__currentNews__["b" /* renderBitCoinHeadLines */]();
 setInterval(function(a) {
     console.log("about to render all Current News");
     __WEBPACK_IMPORTED_MODULE_5__currentNews__["b" /* renderBitCoinHeadLines */]();
-  }, 600000);
+  }, 60000);
 
 
 /***/ }),
@@ -25560,7 +25577,11 @@ const renderCurrentBitCoinNews = (data) => {
     imgUrl = newsResponse.urlToImage;
     newsUl.append($("<li>").addClass("bitcoinNews-li"));
     newsli = (newsUl.children().last());
-    newsli.append(`<img width="50px" height="50px" src="${imgUrl}"/>`);
+    if( imgUrl == null){
+      newsli.append(`<img width="50px" height="50px" src="./images/bitcoin.jpg"/>`);
+    } else {
+      newsli.append(`<img width="50px" height="50px" src="${imgUrl}"/>`);
+    }
     newsli.append(`<div>
                     <p> <a href="${url}" > ${title} </a> </p>
                     <div> Source: ${source} </div>
@@ -25667,6 +25688,9 @@ const fetchAndRenderAll = (date) => {
 
 
 const renderAllDateNews = (data) => {
+  let title = $(".allNewsVis-title");
+  title.html("All News: Most Used Words");
+
   let div = __WEBPACK_IMPORTED_MODULE_0_d3__["select"]("#allNewsVis");
   div.selectAll("*").remove();
   if(data.length == 0){
@@ -25744,6 +25768,8 @@ const renderAllDateNews = (data) => {
 
 
 const renderAllHistoricalList = (data) => {
+  let settitle = $(".historicalAllNews-title");
+  settitle.html("Top Historical News");
   let newsUl = $('.historicalAllNews');
   let title, url, source, newsli, titlediv, timeFormat, imgUrl;
   newsUl.empty();
@@ -25756,7 +25782,11 @@ const renderAllHistoricalList = (data) => {
     imgUrl = newsResponse.urlToImage;
     newsUl.append($("<li>").addClass("bitcoinNews-li"));
     newsli = (newsUl.children().last());
-    newsli.append(`<img width="50px" height="50px" src="${imgUrl}"/>`);
+    if( imgUrl == null){
+      newsli.append(`<img width="50px" height="50px" src="./images/bitcoin.jpg"/>`);
+    } else {
+      newsli.append(`<img width="50px" height="50px" src="${imgUrl}"/>`);
+    }
     newsli.append(`<div>
                     <p> <a href="${url}" > ${title} </a> </p>
                     <div> Source: ${source} </div>
