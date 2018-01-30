@@ -25287,17 +25287,17 @@ const renderAdditionalCurrent = (data) => {
   difficulty = __WEBPACK_IMPORTED_MODULE_0__util_functions__["g" /* numberWithCommas */](data.difficulty),
   tradeVolume = __WEBPACK_IMPORTED_MODULE_0__util_functions__["d" /* formatToCurrency */](data.trade_volume_usd.toFixed(2));
 
-list.append($("<li>").addClass("currentBitLi").append(`<strong> Hashrate: </strong> ${hashrate}` ));
-list.append($("<li>").addClass("currentBitLi").append(`<strong> Total Bitcoin Fees: </strong> ${totalFeesbtc}`));
+// list.append($("<li>").addClass("currentBitLi").append(`<strong> Hashrate: </strong> ${hashrate}` ));
+// list.append($("<li>").addClass("currentBitLi").append(`<strong> Total Bitcoin Fees: </strong> ${totalFeesbtc}`));
 list.append($("<li>").addClass("currentBitLi").append(`<strong> Bitcoins Mined: </strong>${btcMined}`));
 list.append($("<li>").addClass("currentBitLi").append(`<strong> Number of Transactions: </strong> ${nTransactions}`));
 list.append($("<li>").addClass("currentBitLi").append(`<strong> Blocks Mined: </strong> ${nBlocksMined}`));
 list.append($("<li>").addClass("currentBitLi").append(`<strong> Average Minute Between Blocks: </strong>${aMinutesBetweenBlocks}`));
 list.append($("<li>").addClass("currentBitLi").append(`<strong> Trade Volume: </strong>${tVolumeUSD}`));
-list.append($("<li>").addClass("currentBitLi").append(`<strong> Miners Revenue: </strong> ${minersRevenue}`));
-list.append($("<li>").addClass("currentBitLi").append(`<strong> Next Target: </strong>${nextTarget}`));
-list.append($("<li>").addClass("currentBitLi").append(`<strong> Difficulty: </strong> ${difficulty}`));
-list.append($("<li>").addClass("currentBitLi").append(`<strong> Trade Volume: </strong> ${tradeVolume}`));
+// list.append($("<li>").addClass("currentBitLi").append(`<strong> Miners Revenue: </strong> ${minersRevenue}`));
+// list.append($("<li>").addClass("currentBitLi").append(`<strong> Next Target: </strong>${nextTarget}`));
+// list.append($("<li>").addClass("currentBitLi").append(`<strong> Difficulty: </strong> ${difficulty}`));
+// list.append($("<li>").addClass("currentBitLi").append(`<strong> Trade Volume: </strong> ${tradeVolume}`));
 
 };
 /* unused harmony export renderAdditionalCurrent */
