@@ -311,8 +311,7 @@ h4 {
 }
 
 
-
-
-.historical-news-main {
+.hist-cont {
   display: flex;
+  justify-content: space-around;
 }
