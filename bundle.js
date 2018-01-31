@@ -10420,6 +10420,10 @@ const renderBitChart = (data, range) => {
 
 
 const prepare = (data) => {
+  $("html, body").animate({ scrollTop: $('#newsVis').offset().top }, 1000);
+
+
+
   let date = new Date(data.date);
   let label = $('.historical-instructions');
   label.empty();
@@ -10434,7 +10438,8 @@ const prepare = (data) => {
     `);
 
     let closebutton = $('.close-button');
-    closebutton.click( function() {
+    closebutton.click( function(e) {
+    e.preventDefault();
      $('.clicked-date').empty();
 
      $(".newsVis-title").empty();
