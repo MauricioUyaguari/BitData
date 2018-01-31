@@ -25489,6 +25489,9 @@ const fetchAndRender = (date) => {
 };
 
 const renderdateNews = (data) => {
+  let title = $(".newsVis-title");
+  title.html("BitCoin News: Most Used Words");
+
   let div = __WEBPACK_IMPORTED_MODULE_0_d3__["select"]("#newsVis");
   div.selectAll("*").remove();
   if(data.length == 0){
@@ -25565,7 +25568,8 @@ const renderdateNews = (data) => {
 
 
 const renderCurrentBitCoinNews = (data) => {
-  debugger
+  let settitle = $(".historicalBitcoinNews-title");
+  settitle.html("Top Bitcoin News");
   let newsUl = $('.historicalBitcoinNews');
   let title, url, source, newsli, titlediv, timeFormat, imgUrl;
   newsUl.empty();
