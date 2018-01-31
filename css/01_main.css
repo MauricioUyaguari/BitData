@@ -336,3 +336,26 @@ h4 {
   display: flex;
   justify-content: space-around;
 }
+
+
+
+.newsVis-title, .allNewsVis-title ,.historicalAllNews-title, .historicalBitcoinNews-title {
+  color: #111;
+font-weight: bold;
+line-height: 1.2;
+margin: 0;
+/* font-size: 4.8rem; */
+/* letter-spacing: -0.04em; */
+font-size: 30px;
+/* font-size: 4.8rem; */
+letter-spacing: -0.04em;
+color: #ffd700;
+text-align: center;
+padding-bottom: 5px;
+}
+
+
+.historicalAllNews, .historicalBitcoinNews {
+  padding-left: 20px;
+  padding-bottom: 40px;
+}
