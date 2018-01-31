@@ -1138,7 +1138,7 @@ const deleteShortWords = (array) => {
    'they', 'we', 'how', 'it', 'i', 'are', 'to', 'for', 'of','that','from', 'this', 'from',
    'with', 'just', 'your', 'about', 'like', 'read', 'some', 'will', 'which', 'have', 'when',
    'after', 'down', 'been', 'once', 'come', 'what', 'time', 'things','@thomas👉', 'page.',
-   'hvper.com'
+   'hvper.com', 'bitcoin.', '...bitcoin', 'their', 'than'
  ];
   array.forEach(word => {
     if(word.length <= 3 || word[0] === "$" || shortwords.includes(word) || !isNaN(parseInt(word)) ){
@@ -25508,8 +25508,8 @@ const fetchAndRender = (date) => {
     let counter = __WEBPACK_IMPORTED_MODULE_2__util_news_functions_js__["b" /* objectCounter */](words);
     console.log(counter);
     console.log(words);
-    let result = __WEBPACK_IMPORTED_MODULE_2__util_news_functions_js__["c" /* topWords */](20, counter);
-    result = (result.length > 50) ? result.slice(0,50) : result;
+    let result = __WEBPACK_IMPORTED_MODULE_2__util_news_functions_js__["c" /* topWords */](30, counter);
+    result = (result.length > 60) ? result.slice(0,60) : result;
     renderdateNews(result);
     renderCurrentBitCoinNews(response.articles);
     });
@@ -25564,7 +25564,7 @@ const renderdateNews = (data) => {
         .append('text')
         .text(d => d.word)
         .attr('stroke', '0px')
-        .attr('fill', 'white')
+        .attr('fill', '#DC143C')
         .attr('font-size', 12);
 
   let nodes = simulation.nodes(data)
@@ -25580,7 +25580,7 @@ const renderdateNews = (data) => {
           });
 
       texts.attr('x', (d) => {
-          return d.x - 5;
+          return d.x - (d.word.length)* 2 ;
       })
       .attr('y', (d) => {
           return d.y;
@@ -25710,8 +25710,8 @@ const fetchAndRenderAll = (date) => {
     let counter = __WEBPACK_IMPORTED_MODULE_2__util_news_functions_js__["b" /* objectCounter */](words);
     console.log(counter);
     console.log(words);
-    let result = __WEBPACK_IMPORTED_MODULE_2__util_news_functions_js__["c" /* topWords */](20, counter);
-    result = (result.length > 50) ? result.slice(0,50) : result;
+    let result = __WEBPACK_IMPORTED_MODULE_2__util_news_functions_js__["c" /* topWords */](30, counter);
+    result = (result.length > 60) ? result.slice(0,60) : result;
     renderAllDateNews(result);
     renderAllHistoricalList(response.articles);
   };
@@ -25769,7 +25769,7 @@ const renderAllDateNews = (data) => {
         .append('text')
         .text(d => d.word)
         .attr('stroke', '0px')
-        .attr('fill', 'white')
+        .attr('fill', '#DC143C')
 
         .attr('font-size', 12);
 
@@ -25786,7 +25786,7 @@ const renderAllDateNews = (data) => {
           });
 
       texts.attr('x', (d) => {
-          return d.x - 12;
+          return d.x - (d.word.length) * 2;
       })
       .attr('y', (d) => {
           return d.y;
