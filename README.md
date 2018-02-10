@@ -5,4 +5,19 @@ Bitcoin has been making huge dents in the stock market as of later.  In order to
 
 
 ## Technology Used
-This project was completed with the JavaScript, jquery and the D3 library.  It also minimally uses other libraries. In order to see the data displayed it is import to run npm install
+This project was completed with the JavaScript, jQuery and the D3 library.  It also minimally uses other libraries. In order to see the data displayed it is import to run npm install when copying the repo.
+
+## Overview
+The Data visualization has three main parts:
+* Current Bitcoin Data
+* Current News Data
+* Historical Bitcoin Market price
+* Historical News D3 Visualization
+* Historical News Summary
+
+
+### Current Bitcoin Data
+
+
+## APIs
+Google News, Blockchain, Coindesk
