@@ -17,6 +17,13 @@ The Data visualization has three main parts:
 
 
 ### Current Bitcoin Data
+This section shows Bitcoin prices including its current market value, bitcoins mined, trade volume etc. This data is pulled from the Blockchain API and is updated every minute.
+
+
+### Current News Data
+Shows the top trending news for bitcoin and all news data.  It is also updated every 60 seconds, to show the latest breaking news.  Useful to see if there is any correlation between news and bitcoin prices.
+
+
 
 
 ## APIs
